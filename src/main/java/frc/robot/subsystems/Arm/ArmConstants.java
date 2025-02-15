@@ -6,6 +6,8 @@ package frc.robot.subsystems.Arm;
 
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+
 /** Add your docs here. */
 public class ArmConstants {
   public static class Angulador {
@@ -34,6 +36,14 @@ public class ArmConstants {
     public static final double simKs = 0.0;
     public static final double simKv = 0.227;
 
+    //Arm configuration
+    public static final double armLength = 0.5;
+    public static final double armMass = 1.0;
+    public static final double armMaxAngle= 180.0;
+    public static final double armMinAngle= 0.0;
+    public static final double armInitialAngle = 0.0;
+    public static final double MOI = SingleJointedArmSim.estimateMOI(armMass, armLength);
+    public static final double armEncoderDistancePerPulse = 2 * Math.PI/ 4096.0;
 
   }
 }

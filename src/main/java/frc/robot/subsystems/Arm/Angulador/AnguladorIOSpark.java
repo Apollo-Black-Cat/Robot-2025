@@ -7,6 +7,8 @@ package frc.robot.subsystems.Arm.Angulador;
 import static frc.robot.util.SparkUtil.ifOk;
 import static frc.robot.util.SparkUtil.tryUntilOk;
 
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -69,6 +71,11 @@ public class AnguladorIOSpark implements AnguladorIO {
     ifOk(leftMotor, ArmEncoder::getVelocity,(value) -> inputs.velocityRadPerSec = value);
     //get the angle of the encoder
     ifOk(leftMotor, ArmEncoder::getPosition, (value) -> inputs.positionRad = value);
+    //get the applied voltage and amps of the motors
+    ifOk(leftMotor, new DoubleSupplier[] {leftMotor::getAppliedOutput, leftMotor::getBusVoltage}, (value) -> inputs.leftAppliedVolts = value[0] * value[1]);
+    ifOk(leftMotor, new DoubleSupplier[] {leftMotor::getOutputCurrent, leftMotor::getOutputCurrent}, (value) -> inputs.leftCurrentAmps = value);
+    ifOk(rightMotor, new DoubleSupplier[] {rightMotor::getAppliedOutput, rightMotor::getBusVoltage}, (value) -> inputs.rightAppliedVolts = value[0] * value[1]);
+    ifOk(rightMotor, new DoubleSupplier[] {rightMotor::getOutputCurrent, rightMotor::getOutputCurrent}, (value) -> inputs.rightCurrentAmps = value);
   }
 
   public void periodic() {
