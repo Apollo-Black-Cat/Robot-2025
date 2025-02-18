@@ -33,7 +33,7 @@ public class DriveIOSim implements DriveIO {
   private PIDController leftPID = new PIDController(simKp, 0.0, simKd);
   private PIDController rightPID = new PIDController(simKp, 0.0, simKd);
   private double leftFFVolts = 0.0;
-  private double rightFFVolts = 0.0; 
+  private double rightFFVolts = 0.0;
 
   @Override
   public void updateInputs(DriveIOInputs inputs) {

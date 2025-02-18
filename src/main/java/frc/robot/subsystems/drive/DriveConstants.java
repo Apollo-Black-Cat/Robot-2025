@@ -30,9 +30,9 @@ public class DriveConstants {
   public static final int rightFollowerCanId = 3;
 
   // Motor configuration
-  public static final int currentLimit = 105;
+  public static final int currentLimit = 172;
   public static final double wheelRadiusMeters = Units.inchesToMeters(3);
-  public static final double motorReduction = 8.45;
+  public static final double motorReduction = 5.95;
   public static final boolean leftInverted = false;
   public static final boolean rightInverted = true;
   public static final DCMotor gearbox = DCMotor.getNEO(2);
@@ -43,7 +43,7 @@ public class DriveConstants {
   public static final double realKs = 0.0;
   public static final double realKv = 0.1;
 
-  public static final double simKp = 0.10;
+  public static final double simKp = 0.30;
   public static final double simKd = 0.0;
   public static final double simKs = 0.0;
   public static final double simKv = 0.227;

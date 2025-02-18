@@ -19,7 +19,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.ArmCommands;
 import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.Arm.Angulador.Angulador;
+import frc.robot.subsystems.Arm.Angulador.AnguladorIO;
+import frc.robot.subsystems.Arm.Angulador.AnguladorIOSim;
+import frc.robot.subsystems.Arm.Angulador.AnguladorIOSpark;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.DriveIO;
 import frc.robot.subsystems.drive.DriveIOSim;
@@ -37,6 +42,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Angulador angulador;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -50,16 +56,19 @@ public class RobotContainer {
       case REAL:
         // Real robot, instantiate hardware IO implementations
         drive = new Drive(new DriveIOSpark(), new GyroIONavX());
+        angulador = new Angulador(new AnguladorIOSpark());
         break;
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
         drive = new Drive(new DriveIOSim(), new GyroIO() {});
+        angulador = new Angulador(new AnguladorIOSim());
         break;
 
       default:
         // Replayed robot, disable IO implementations
         drive = new Drive(new DriveIO() {}, new GyroIO() {});
+        angulador = new Angulador(new AnguladorIO() {});
         break;
     }
 
@@ -95,6 +104,9 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.arcadeDrive(
             drive, () -> -controller.getLeftY(), () -> -controller.getRightX()));
+    angulador.setDefaultCommand(
+        ArmCommands.controlArm(
+            angulador, () -> controller.getLeftTriggerAxis() - controller.getRightTriggerAxis()));
   }
 
   /**
