@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 public class ArmConstants {
   public static class Angulador {
     // Motors ID
-    public static final int leftMotorId = 5;
+    public static final int leftMotorId = 1;
     public static final int rightMotorId = 6;
 
     public static final boolean leftInverted = false;

@@ -24,10 +24,10 @@ public class DriveConstants {
 
   // Device CAN IDs
   public static final int pigeonCanId = 9;
-  public static final int leftLeaderCanId = 1;
-  public static final int leftFollowerCanId = 2;
-  public static final int rightLeaderCanId = 4;
-  public static final int rightFollowerCanId = 3;
+  public static final int leftLeaderCanId = 2;
+  public static final int leftFollowerCanId = 3;
+  public static final int rightLeaderCanId = 5;
+  public static final int rightFollowerCanId = 4;
 
   // Motor configuration
   public static final int currentLimit = 172;
