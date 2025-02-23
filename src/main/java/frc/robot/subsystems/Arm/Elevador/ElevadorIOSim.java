@@ -25,10 +25,11 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
+import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
+import org.littletonrobotics.junction.mechanism.LoggedMechanismRoot2d;
 
 public class ElevadorIOSim implements ElevadorIO {
   /** Creates a new ElevatorIOSim. */
@@ -51,14 +52,14 @@ public class ElevadorIOSim implements ElevadorIO {
   private final EncoderSim m_encoderSim = new EncoderSim(m_encoder);
 
   // create a mecanism2d to simulate the elevator
-  private final Mechanism2d mech2d = new Mechanism2d(0.5, 1.100);
-  private final MechanismRoot2d mech2Root = mech2d.getRoot("Elevator root", .30, .30);
-  private final MechanismLigament2d elevatorMech2d =
-      mech2Root.append(new MechanismLigament2d("Elevator", m_elevatorSim.getPositionMeters(), 90));
+  private final LoggedMechanism2d mech2d = new LoggedMechanism2d(1, 1.100);
+  private final LoggedMechanismRoot2d mech2Root = mech2d.getRoot("Elevator root", .30, .30);
+  private final LoggedMechanismLigament2d elevatorMech2d =
+      mech2Root.append(
+          new LoggedMechanismLigament2d("Elevator", m_elevatorSim.getPositionMeters(), 90));
 
   public ElevadorIOSim() {
     m_encoder.setDistancePerPulse(distancePerPulse / motorReduction);
-    SmartDashboard.putData("Elevator", mech2d);
   }
 
   @Override
@@ -71,13 +72,15 @@ public class ElevadorIOSim implements ElevadorIO {
     m_encoderSim.setDistance(m_elevatorSim.getPositionMeters());
     m_encoderSim.setRate(m_elevatorSim.getVelocityMetersPerSecond());
     // Update the mechanism2d
-    elevatorMech2d.setAngle(SmartDashboard.getNumber("Angle", 90));
+    elevatorMech2d.setAngle(SmartDashboard.getNumber("Angulador Angle", 90));
     elevatorMech2d.setLength(m_elevatorSim.getPositionMeters());
     // Update the inputs
     inputs.height = m_elevatorSim.getPositionMeters();
     inputs.velocityMetersPerSec = m_elevatorSim.getVelocityMetersPerSecond();
     inputs.appliedVolts = appliedVolts;
     inputs.currentAmps = new double[] {m_elevatorSim.getCurrentDrawAmps()};
+
+    Logger.recordOutput("Arm/Elevador", mech2d);
   }
 
   @Override

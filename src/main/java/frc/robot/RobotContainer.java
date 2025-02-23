@@ -116,6 +116,11 @@ public class RobotContainer {
     angulador.setDefaultCommand(ArmCommands.controlArm(angulador, () -> controller.getRightY()));
     elevador.setDefaultCommand(
         ElevatorCommands.controlElevator(elevador, () -> controller.getLeftX()));
+    // Configure button A to set angle to 0 degrees
+    controller.a().onTrue(ArmCommands.setAngle(angulador, 0));
+
+    // Configure button B to set angle to 90 degrees
+    controller.b().onTrue(ArmCommands.setAngle(angulador, 90));
   }
 
   /**

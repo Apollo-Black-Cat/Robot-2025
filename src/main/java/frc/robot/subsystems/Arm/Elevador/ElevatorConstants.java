@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.Arm.Elevador;
 
+import edu.wpi.first.math.util.Units;
+
 /** Add your docs here. */
 public class ElevatorConstants {
   public static final int elevatorMotorId = 7;
@@ -17,8 +19,8 @@ public class ElevatorConstants {
 
   // Elevator configuration
   public static final double motorReduction = 27.0;
-  public static final double carriageMass = 3.0;
-  public static final double drumRadius = 0.944;
+  public static final double carriageMass = 0.3;
+  public static final double drumRadius = Units.inchesToMeters(0.944);
   public static final double minHeight = 0.75;
   public static final double maxHeight = 1.10;
   public static final double starningHeight = 0.75;

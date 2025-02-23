@@ -11,12 +11,13 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
+import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
+import org.littletonrobotics.junction.mechanism.LoggedMechanismRoot2d;
 
 public class AnguladorIOSim implements AnguladorIO {
   /** Creates a new AnguladorIOSim. */
@@ -48,13 +49,13 @@ public class AnguladorIOSim implements AnguladorIO {
   private final EncoderSim encoderSim = new EncoderSim(encoder);
 
   // create a mecanism2d to simulate the arm
-  private final Mechanism2d mechanism = new Mechanism2d(1, 0.4);
-  private final MechanismRoot2d m_armPivot = mechanism.getRoot("ArmPivot", .30, .30);
-  private final MechanismLigament2d m_armTower =
-      m_armPivot.append(new MechanismLigament2d("ArmTower", 0.3412, -90));
-  private final MechanismLigament2d m_arm =
+  private final LoggedMechanism2d mechanism = new LoggedMechanism2d(1, 0.4);
+  private final LoggedMechanismRoot2d m_armPivot = mechanism.getRoot("ArmPivot", .30, .30);
+  private final LoggedMechanismLigament2d m_armTower =
+      m_armPivot.append(new LoggedMechanismLigament2d("ArmTower", 0.3412, -90));
+  private final LoggedMechanismLigament2d m_arm =
       m_armPivot.append(
-          new MechanismLigament2d(
+          new LoggedMechanismLigament2d(
               "Arm",
               1,
               Units.radiansToDegrees(sim.getAngleRads()),
@@ -63,8 +64,6 @@ public class AnguladorIOSim implements AnguladorIO {
 
   public AnguladorIOSim() {
     encoder.setDistancePerPulse(ArmConstants.Angulador.armEncoderDistancePerPulse);
-    SmartDashboard.putData("Arm", mechanism);
-    SmartDashboard.putNumber("Angle", m_arm.getAngle());
   }
 
   @Override
@@ -85,6 +84,8 @@ public class AnguladorIOSim implements AnguladorIO {
     inputs.rightAppliedVolts = rightAppliedVolts;
     inputs.rightCurrentAmps = new double[] {rightMotor.getOutputCurrent()};
     m_arm.setAngle(Units.radiansToDegrees(sim.getAngleRads()));
+    Logger.recordOutput("Arm/Angulador", mechanism);
+    SmartDashboard.putNumber("Angulador Angle", Units.radiansToDegrees(sim.getAngleRads()));
   }
 
   @Override
@@ -101,6 +102,8 @@ public class AnguladorIOSim implements AnguladorIO {
     closedLoop = true;
     armPID.setSetpoint(Units.degreesToRadians(angle));
     double output = armPID.calculate(sim.getAngleRads());
+    leftMotor.setVoltage(output);
+    rightMotor.setVoltage(output);
     leftAppliedVolts = output;
     rightAppliedVolts = output;
   }

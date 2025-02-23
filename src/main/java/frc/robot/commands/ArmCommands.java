@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.Arm.Angulador.Angulador;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -27,17 +28,12 @@ public class ArmCommands {
 
   /** put an angle in the arm * */
   public static Command setAngle(Angulador angulador, double angle) {
-    return new Command() {
-      @Override
-      public void initialize() {
-        angulador.runCloseLoop(angle);
-      }
-
-      @Override
-      public boolean isFinished() {
-        return true;
-      }
-    };
+    return new RunCommand(
+            () -> {
+              angulador.runCloseLoop(angle);
+            },
+            angulador)
+        .onlyWhile(() -> Math.abs(angulador.getAngle() - angle) > 0.1);
   }
 
   /** Control the arm by voltage by the control* */

@@ -32,8 +32,8 @@ public class ArmConstants {
     public static final double realKs = 0.0;
     public static final double realKv = 0.1;
 
-    public static final double simKp = 0.10;
-    public static final double simKd = 0.0;
+    public static final double simKp = 1.0;
+    public static final double simKd = 0.1;
     public static final double simKs = 0.0;
     public static final double simKv = 0.227;
 
