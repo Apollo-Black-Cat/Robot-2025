@@ -5,11 +5,11 @@
 package frc.robot.subsystems.Arm.Angulador;
 
 import static edu.wpi.first.units.Units.Volts;
-import static frc.robot.subsystems.Arm.ArmConstants.Angulador.gearRadius;
-import static frc.robot.subsystems.Arm.ArmConstants.Angulador.realKs;
-import static frc.robot.subsystems.Arm.ArmConstants.Angulador.realKv;
-import static frc.robot.subsystems.Arm.ArmConstants.Angulador.simKs;
-import static frc.robot.subsystems.Arm.ArmConstants.Angulador.simKv;
+import static frc.robot.subsystems.Arm.Angulador.ArmConstants.Angulador.gearRadius;
+import static frc.robot.subsystems.Arm.Angulador.ArmConstants.Angulador.realKs;
+import static frc.robot.subsystems.Arm.Angulador.ArmConstants.Angulador.realKv;
+import static frc.robot.subsystems.Arm.Angulador.ArmConstants.Angulador.simKs;
+import static frc.robot.subsystems.Arm.Angulador.ArmConstants.Angulador.simKv;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;

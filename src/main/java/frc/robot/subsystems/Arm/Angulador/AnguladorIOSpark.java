@@ -19,7 +19,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.Arm.ArmConstants;
 import java.util.function.DoubleSupplier;
 
 public class AnguladorIOSpark implements AnguladorIO {

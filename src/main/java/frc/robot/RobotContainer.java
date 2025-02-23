@@ -22,19 +22,14 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.ArmCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ElevatorCommands;
-import frc.robot.commands.WristCommands;
 import frc.robot.subsystems.Arm.Angulador.Angulador;
 import frc.robot.subsystems.Arm.Angulador.AnguladorIO;
 import frc.robot.subsystems.Arm.Angulador.AnguladorIOSim;
 import frc.robot.subsystems.Arm.Angulador.AnguladorIOSpark;
-import frc.robot.subsystems.Elevator.Elevador.Elevador;
-import frc.robot.subsystems.Elevator.Elevador.ElevadorIO;
-import frc.robot.subsystems.Elevator.Elevador.ElevadorIOSim;
-import frc.robot.subsystems.Elevator.Elevador.ElevadorIOTalonFX;
-import frc.robot.subsystems.Intake.Wrist.Wrist;
-import frc.robot.subsystems.Intake.Wrist.WristIO;
-import frc.robot.subsystems.Intake.Wrist.WristIOSim;
-import frc.robot.subsystems.Intake.Wrist.WristIOSpark;
+import frc.robot.subsystems.Arm.Elevador.Elevador;
+import frc.robot.subsystems.Arm.Elevador.ElevadorIO;
+import frc.robot.subsystems.Arm.Elevador.ElevadorIOSim;
+import frc.robot.subsystems.Arm.Elevador.ElevadorIOTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.DriveIO;
 import frc.robot.subsystems.drive.DriveIOSim;
@@ -54,7 +49,6 @@ public class RobotContainer {
   private final Drive drive;
   private final Angulador angulador;
   private final Elevador elevador;
-  private final Wrist wrist;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -70,7 +64,6 @@ public class RobotContainer {
         drive = new Drive(new DriveIOSpark(), new GyroIONavX());
         angulador = new Angulador(new AnguladorIOSpark());
         elevador = new Elevador(new ElevadorIOTalonFX());
-        wrist = new Wrist(new WristIOSpark());
         break;
 
       case SIM:
@@ -78,7 +71,6 @@ public class RobotContainer {
         drive = new Drive(new DriveIOSim(), new GyroIO() {});
         angulador = new Angulador(new AnguladorIOSim());
         elevador = new Elevador(new ElevadorIOSim());
-        wrist = new Wrist(new WristIOSim());
         break;
 
       default:
@@ -86,7 +78,6 @@ public class RobotContainer {
         drive = new Drive(new DriveIO() {}, new GyroIO() {});
         angulador = new Angulador(new AnguladorIO() {});
         elevador = new Elevador(new ElevadorIO() {});
-        wrist = new Wrist(new WristIO() {});
         break;
     }
 
@@ -124,10 +115,7 @@ public class RobotContainer {
             drive, () -> -controller.getLeftY(), () -> -controller.getRightX()));
     angulador.setDefaultCommand(ArmCommands.controlArm(angulador, () -> controller.getRightY()));
     elevador.setDefaultCommand(
-        ElevatorCommands.setControlPosition(elevador, () -> controller.getLeftX()));
-    wrist.setDefaultCommand(
-        WristCommands.moveWrist(
-            wrist, () -> controller.getLeftTriggerAxis() - controller.getRightTriggerAxis()));
+        ElevatorCommands.controlElevator(elevador, () -> controller.getLeftX()));
   }
 
   /**

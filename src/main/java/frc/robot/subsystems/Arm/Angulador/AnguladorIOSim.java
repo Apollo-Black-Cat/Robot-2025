@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
-import frc.robot.subsystems.Arm.ArmConstants;
 
 public class AnguladorIOSim implements AnguladorIO {
   /** Creates a new AnguladorIOSim. */
@@ -65,8 +64,10 @@ public class AnguladorIOSim implements AnguladorIO {
   public AnguladorIOSim() {
     encoder.setDistancePerPulse(ArmConstants.Angulador.armEncoderDistancePerPulse);
     SmartDashboard.putData("Arm", mechanism);
+    SmartDashboard.putNumber("Angle", m_arm.getAngle());
   }
 
+  @Override
   public void updateInputs(AnguladorIOInputs inputs) {
     if (closedLoop) {
       leftMotor.set(leftAppliedVolts);
@@ -86,6 +87,7 @@ public class AnguladorIOSim implements AnguladorIO {
     m_arm.setAngle(Units.radiansToDegrees(sim.getAngleRads()));
   }
 
+  @Override
   public void setVoltage(double voltage) {
     closedLoop = false;
     leftMotor.setVoltage(voltage);
@@ -94,6 +96,7 @@ public class AnguladorIOSim implements AnguladorIO {
     rightAppliedVolts = voltage;
   }
 
+  @Override
   public void setAngle(double angle) {
     closedLoop = true;
     armPID.setSetpoint(Units.degreesToRadians(angle));

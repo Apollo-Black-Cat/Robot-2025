@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import static frc.robot.subsystems.Arm.ArmConstants.Angulador.maxVoltage;
+import static frc.robot.subsystems.Arm.Angulador.ArmConstants.Angulador.maxVoltage;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
