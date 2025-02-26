@@ -48,4 +48,8 @@ public class Elevador extends SubsystemBase {
   public void stop() {
     elevadorIO.stopMotor();
   }
+
+  public double getHeight() {
+    return inputs.height;
+  }
 }

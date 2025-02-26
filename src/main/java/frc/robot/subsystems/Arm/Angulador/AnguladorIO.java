@@ -26,4 +26,9 @@ public interface AnguladorIO {
   public default void setVoltage(double voltage) {}
 
   public default void setAngle(double angle) {}
+
+  public default double getHeight() {
+    return 0;
+  }
+  ;
 }

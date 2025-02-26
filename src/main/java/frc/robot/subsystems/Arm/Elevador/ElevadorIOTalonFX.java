@@ -9,6 +9,7 @@ import static frc.robot.subsystems.drive.DriveConstants.motorReduction;
 import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -24,6 +25,8 @@ import edu.wpi.first.units.measure.Voltage;
 public class ElevadorIOTalonFX implements ElevadorIO {
   /** Creates a new ElevatorIOTalonFX. */
   private final TalonFX elevatorMotor = new TalonFX(ElevatorConstants.elevatorMotorId);
+
+  private Orchestra mOrchestra = new Orchestra();
 
   private final StatusSignal<Angle> elevetorMotorPosition = elevatorMotor.getPosition();
   private final StatusSignal<AngularVelocity> elevatorMotorVelocity = elevatorMotor.getVelocity();
@@ -45,6 +48,7 @@ public class ElevadorIOTalonFX implements ElevadorIO {
   //         ElevatorConstants.realKa);
 
   public ElevadorIOTalonFX() {
+
     var config = new TalonFXConfiguration();
     config.CurrentLimits.SupplyCurrentLimit = ElevatorConstants.currentLimit;
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
@@ -57,7 +61,10 @@ public class ElevadorIOTalonFX implements ElevadorIO {
     config.MotorOutput.Inverted =
         isInverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
     tryUntilOk(5, () -> elevatorMotor.getConfigurator().apply(config, 0.25));
-
+    mOrchestra.addInstrument(elevatorMotor);
+    var status = mOrchestra.loadMusic("song2.chrp");
+    if (!status.isOK()) System.err.println("Error al cargar archivo de musica");
+    else System.out.println("La musica escogida es: doom");
     BaseStatusSignal.setUpdateFrequencyForAll(
         50,
         elevetorMotorPosition,
@@ -65,6 +72,7 @@ public class ElevadorIOTalonFX implements ElevadorIO {
         elevatorMotorVoltage,
         elevatorMotorCurrent);
     elevatorMotor.optimizeBusUtilization();
+    // mOrchestra.play();
   }
 
   @Override
@@ -96,6 +104,11 @@ public class ElevadorIOTalonFX implements ElevadorIO {
   @Override
   public void stopMotor() {
     elevatorMotor.stopMotor();
+  }
+
+  @Override
+  public double getHeight() {
+    return rotationToMeters(elevetorMotorPosition.getValueAsDouble());
   }
 
   public void periodic() {}

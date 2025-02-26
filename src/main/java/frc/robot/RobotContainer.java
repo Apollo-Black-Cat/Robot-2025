@@ -13,6 +13,11 @@
 
 package frc.robot;
 
+import static frc.robot.subsystems.vision.VisionConstants.camera0Name;
+import static frc.robot.subsystems.vision.VisionConstants.camera1Name;
+import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
+import static frc.robot.subsystems.vision.VisionConstants.robotToCamera1;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -36,6 +41,10 @@ import frc.robot.subsystems.drive.DriveIOSim;
 import frc.robot.subsystems.drive.DriveIOSpark;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONavX;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOLimelight;
+import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -49,6 +58,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Angulador angulador;
   private final Elevador elevador;
+  private final Vision vision;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -64,6 +74,11 @@ public class RobotContainer {
         drive = new Drive(new DriveIOSpark(), new GyroIONavX());
         angulador = new Angulador(new AnguladorIOSpark());
         elevador = new Elevador(new ElevadorIOTalonFX());
+        vision =
+            new Vision(
+                drive::addVisionMeasurement,
+                new VisionIOLimelight(camera0Name, drive::getRotation),
+                new VisionIOLimelight(camera1Name, drive::getRotation));
         break;
 
       case SIM:
@@ -71,6 +86,11 @@ public class RobotContainer {
         drive = new Drive(new DriveIOSim(), new GyroIO() {});
         angulador = new Angulador(new AnguladorIOSim());
         elevador = new Elevador(new ElevadorIOSim());
+        vision =
+            new Vision(
+                drive::addVisionMeasurement,
+                new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose),
+                new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose));
         break;
 
       default:
@@ -78,6 +98,7 @@ public class RobotContainer {
         drive = new Drive(new DriveIO() {}, new GyroIO() {});
         angulador = new Angulador(new AnguladorIO() {});
         elevador = new Elevador(new ElevadorIO() {});
+        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
         break;
     }
 
@@ -115,7 +136,8 @@ public class RobotContainer {
             drive, () -> -controller.getLeftY(), () -> -controller.getRightX()));
     angulador.setDefaultCommand(ArmCommands.controlArm(angulador, () -> controller.getRightY()));
     elevador.setDefaultCommand(
-        ElevatorCommands.controlElevator(elevador, () -> controller.getLeftX()));
+        ElevatorCommands.controlElevator(
+            elevador, () -> controller.getRightTriggerAxis() - controller.getLeftTriggerAxis()));
     // Configure button A to set angle to 0 degrees
     controller.a().onTrue(ArmCommands.setAngle(angulador, 0));
 

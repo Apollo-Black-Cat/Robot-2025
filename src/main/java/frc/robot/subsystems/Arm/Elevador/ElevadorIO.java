@@ -24,4 +24,8 @@ public interface ElevadorIO {
   public default void setHeight(double height) {}
 
   public default void stopMotor() {}
+
+  public default double getHeight() {
+    return 0;
+  }
 }

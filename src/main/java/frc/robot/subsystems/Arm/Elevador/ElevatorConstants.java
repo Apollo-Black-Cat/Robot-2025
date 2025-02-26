@@ -18,7 +18,7 @@ public class ElevatorConstants {
   public static final boolean isInverted = false;
 
   // Elevator configuration
-  public static final double motorReduction = 27.0;
+  public static final double motorReduction = 21.0;
   public static final double carriageMass = 0.3;
   public static final double drumRadius = Units.inchesToMeters(0.944);
   public static final double minHeight = 0.75;

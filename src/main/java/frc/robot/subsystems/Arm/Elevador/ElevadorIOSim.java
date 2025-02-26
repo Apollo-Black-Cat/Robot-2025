@@ -101,6 +101,11 @@ public class ElevadorIOSim implements ElevadorIO {
   }
 
   @Override
+  public double getHeight() {
+    return m_encoderSim.getDistance();
+  }
+
+  @Override
   public void stopMotor() {
     appliedVolts = 0.0;
     m_motor.set(0.0);
