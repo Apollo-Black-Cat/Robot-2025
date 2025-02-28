@@ -43,14 +43,14 @@ public class DriveConstants {
   public static final double realKs = 0.0;
   public static final double realKv = 0.1;
 
-  public static final double simKp = 0.30;
+  public static final double simKp = 0.07;
   public static final double simKd = 0.0;
   public static final double simKs = 0.0;
   public static final double simKv = 0.227;
 
   // PathPlanner configuration
   public static final double robotMassKg = 35.088;
-  public static final double robotMOI = 17.987512;
+  public static final double robotMOI = 13.480;
   public static final double wheelCOF = 1.2;
   public static final RobotConfig ppConfig =
       new RobotConfig(

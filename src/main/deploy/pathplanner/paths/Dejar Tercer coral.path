@@ -1,0 +1,70 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.616,
+        "y": 0.927
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.3830356980649277,
+        "y": 0.6293229366848961
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.8005756578947363,
+        "y": 1.571463815789474
+      },
+      "prevControl": {
+        "x": 3.395589803187772,
+        "y": 0.9110351875416709
+      },
+      "nextControl": {
+        "x": 3.9802173748841443,
+        "y": 1.8644136345263282
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.916036184210526,
+        "y": 2.591365131578947
+      },
+      "prevControl": {
+        "x": 3.7940808447942906,
+        "y": 2.373129261044631
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Derecha",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

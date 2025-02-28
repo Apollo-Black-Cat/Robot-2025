@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Dejar el primer coral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Source"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Dejar segundo coral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Source 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Dejar Tercer coral"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

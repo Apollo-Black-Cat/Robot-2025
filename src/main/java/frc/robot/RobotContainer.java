@@ -35,6 +35,10 @@ import frc.robot.subsystems.Arm.Elevador.Elevador;
 import frc.robot.subsystems.Arm.Elevador.ElevadorIO;
 import frc.robot.subsystems.Arm.Elevador.ElevadorIOSim;
 import frc.robot.subsystems.Arm.Elevador.ElevadorIOTalonFX;
+import frc.robot.subsystems.Arm.Intake.Intake;
+import frc.robot.subsystems.Arm.Intake.IntakeIO;
+import frc.robot.subsystems.Arm.Intake.IntakeIOSim;
+import frc.robot.subsystems.Arm.Intake.IntakeIOSpark;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.DriveIO;
 import frc.robot.subsystems.drive.DriveIOSim;
@@ -59,6 +63,7 @@ public class RobotContainer {
   private final Angulador angulador;
   private final Elevador elevador;
   private final Vision vision;
+  private final Intake intake;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -79,6 +84,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOLimelight(camera0Name, drive::getRotation),
                 new VisionIOLimelight(camera1Name, drive::getRotation));
+        intake = new Intake(new IntakeIOSpark());
         break;
 
       case SIM:
@@ -91,6 +97,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose),
                 new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose));
+        intake = new Intake(new IntakeIOSim());
         break;
 
       default:
@@ -99,6 +106,7 @@ public class RobotContainer {
         angulador = new Angulador(new AnguladorIO() {});
         elevador = new Elevador(new ElevadorIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        intake = new Intake(new IntakeIO() {});
         break;
     }
 
@@ -138,11 +146,11 @@ public class RobotContainer {
     elevador.setDefaultCommand(
         ElevatorCommands.controlElevator(
             elevador, () -> controller.getRightTriggerAxis() - controller.getLeftTriggerAxis()));
-    // Configure button A to set angle to 0 degrees
-    controller.a().onTrue(ArmCommands.setAngle(angulador, 0));
+    // Configure button A to run intake
+    controller.a().whileTrue(intake.runPercent(1.0));
 
-    // Configure button B to set angle to 90 degrees
-    controller.b().onTrue(ArmCommands.setAngle(angulador, 90));
+    // Configure button B to run intake in reverse
+    controller.b().whileTrue(intake.runPercent(-1.0));
   }
 
   /**

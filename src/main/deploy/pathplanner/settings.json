@@ -2,7 +2,10 @@
   "robotWidth": 0.9,
   "robotLength": 0.9,
   "holonomicMode": false,
-  "pathFolders": [],
+  "pathFolders": [
+    "Derecha",
+    "Izquierda"
+  ],
   "autoFolders": [],
   "defaultMaxVel": 4.0,
   "defaultMaxAccel": 3.0,
@@ -10,7 +13,7 @@
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,
   "robotMass": 35.088,
-  "robotMOI": 17.988,
+  "robotMOI": 13.48,
   "robotTrackwidth": 0.62,
   "driveWheelRadius": 0.15,
   "driveGearing": 5.95,
