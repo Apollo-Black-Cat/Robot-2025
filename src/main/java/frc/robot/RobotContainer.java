@@ -19,6 +19,9 @@ import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
 import static frc.robot.subsystems.vision.VisionConstants.robotToCamera1;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FileVersionException;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -49,6 +52,8 @@ import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
+import java.io.IOException;
+import org.json.simple.parser.ParseException;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -70,6 +75,10 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
+
+  PathPlannerPath path;
+  PathConstraints constraints;
+  Command command;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -127,6 +136,20 @@ public class RobotContainer {
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
+    try {
+      path = PathPlannerPath.fromPathFile("Recoger Coral");
+    } catch (FileVersionException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    constraints = new PathConstraints(2.5, 3.0, 300, 651);
+    command = AutoBuilder.pathfindThenFollowPath(path, constraints);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -147,10 +170,13 @@ public class RobotContainer {
         ElevatorCommands.controlElevator(
             elevador, () -> controller.getRightTriggerAxis() - controller.getLeftTriggerAxis()));
     // Configure button A to run intake
-    controller.a().whileTrue(intake.runPercent(1.0));
+    controller.a().onTrue(ArmCommands.setAngle(angulador, 0));
 
     // Configure button B to run intake in reverse
-    controller.b().whileTrue(intake.runPercent(-1.0));
+    controller.b().onTrue(ArmCommands.setAngle(angulador, 90));
+
+    // Configure button X to run the pathfinding command
+    controller.x().onTrue(command);
   }
 
   /**

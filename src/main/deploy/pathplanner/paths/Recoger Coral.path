@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.927,
-        "y": 3.794
+        "x": 2.404109589041096,
+        "y": 2.244456335616438
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.627,
-        "y": 3.794
+        "x": 1.8331335616438356,
+        "y": 1.8237371575342467
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.724917763157895,
-        "y": 2.187
+        "x": 1.3222602739726028,
+        "y": 0.8019905821917803
       },
       "prevControl": {
-        "x": 6.352975666332923,
-        "y": 2.6634577196500206
-      },
-      "nextControl": {
-        "x": 5.166858552631579,
-        "y": 1.7636447368421049
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.655,
-        "y": 0.936
-      },
-      "prevControl": {
-        "x": 2.636413923979958,
-        "y": 1.8500630902084212
+        "x": 1.9833904109589042,
+        "y": 1.5532748287671234
       },
       "nextControl": null,
       "isLocked": false,
@@ -61,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Derecha",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

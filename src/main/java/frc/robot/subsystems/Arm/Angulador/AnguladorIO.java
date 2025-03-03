@@ -8,6 +8,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
 public interface AnguladorIO {
+
   @AutoLog
   public static class AnguladorIOInputs {
 

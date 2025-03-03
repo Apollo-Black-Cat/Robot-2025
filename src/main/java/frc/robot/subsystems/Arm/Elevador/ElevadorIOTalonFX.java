@@ -61,10 +61,6 @@ public class ElevadorIOTalonFX implements ElevadorIO {
     config.MotorOutput.Inverted =
         isInverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
     tryUntilOk(5, () -> elevatorMotor.getConfigurator().apply(config, 0.25));
-    mOrchestra.addInstrument(elevatorMotor);
-    var status = mOrchestra.loadMusic("song2.chrp");
-    if (!status.isOK()) System.err.println("Error al cargar archivo de musica");
-    else System.out.println("La musica escogida es: doom");
     BaseStatusSignal.setUpdateFrequencyForAll(
         50,
         elevetorMotorPosition,
@@ -72,7 +68,6 @@ public class ElevadorIOTalonFX implements ElevadorIO {
         elevatorMotorVoltage,
         elevatorMotorCurrent);
     elevatorMotor.optimizeBusUtilization();
-    // mOrchestra.play();
   }
 
   @Override

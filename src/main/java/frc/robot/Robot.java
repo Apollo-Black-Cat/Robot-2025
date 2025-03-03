@@ -13,6 +13,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -85,6 +86,13 @@ public class Robot extends LoggedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
+  }
+
+  @Override
+  public void robotInit() {
+    // TODO Auto-generated method stub
+    super.robotInit();
+    PathfindingCommand.warmupCommand().schedule();
   }
 
   /** This function is called periodically during all modes. */

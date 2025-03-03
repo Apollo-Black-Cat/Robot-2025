@@ -4,12 +4,9 @@
 
 package frc.robot.subsystems.Arm.Intake;
 
-import org.littletonrobotics.junction.AutoLog;
-
 /** Add your docs here. */
 public interface IntakeIO {
 
-  @AutoLog
   public static class IntakeIOInputs {
     public double positionRad = 0.0;
     public double velocityRadPerSec = 0.0;

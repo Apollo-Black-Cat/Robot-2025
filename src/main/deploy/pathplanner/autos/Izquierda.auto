@@ -7,25 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Dejar el primer coral"
+            "pathName": "Inicio"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Source"
+            "pathName": "Recojer Segundo Coral"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Dejar segundo coral"
+            "pathName": "Poner Segundo Coral"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Source 2"
+            "pathName": "Recojer tercer coral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Dejar Tercer Coral"
           }
         }
       ]
