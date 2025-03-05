@@ -69,7 +69,9 @@ public class WristIOSpark implements WristIO {
     // get the velocity of the motors
     ifOk(wristMotor, WristEncoder::getVelocity, (value) -> inputs.velocityRadPerSec = value);
     // get the angle of the encoder
-    ifOk(wristMotor, WristEncoder::getPosition, (value) -> inputs.positionDeg = Units.radiansToDegrees(value));
+    ifOk(wristMotor, WristEncoder::getPosition, (value) -> inputs.positionRad = value);
+    // get the angle of the encoder
+    ifOk(wristMotor, WristEncoder::getPosition, (value) -> inputs.positionRad = Units.radiansToDegrees(value));
     // get the applied voltage and amps of the motors
     ifOk(
         wristMotor,

@@ -13,6 +13,7 @@ public interface WristIO {
   public static class WristIOInputs {
 
     public double velocityRadPerSec = 0.0;
+    public double positionRad = 0.0;
     public double positionDeg = 0.0;
 
     public double leftAppliedVolts = 0.0;

@@ -66,7 +66,7 @@ public class Wrist extends SubsystemBase {
 
   @AutoLogOutput
   public double getAngle() {
-    return Units.radiansToDegrees(inputs.positionRad);
+    return Units.radiansToDegrees(inputs.positionDeg);
   }
 
   @AutoLogOutput
