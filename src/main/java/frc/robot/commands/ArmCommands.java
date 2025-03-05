@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import static frc.robot.subsystems.Arm.Angulador.ArmConstants.Angulador.maxVoltage;
+import static frc.robot.Constants.Angulador.maxVoltage;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
@@ -41,6 +41,12 @@ public class ArmCommands {
     return Commands.run(
         () -> {
           double voltage = MathUtil.applyDeadband(supplier.getAsDouble(), DEADBAND);
+          double angle = angulador.getAngle();
+          if (angle >= 200 && voltage > 0) {
+            voltage = 0;
+          } else if (angle <= -400 && voltage < 0) {
+            voltage = 0;
+          }
           angulador.runOpenLoop(voltage * maxVoltage);
           SmartDashboard.putNumber("voltajeManita", voltage * maxVoltage);
         },

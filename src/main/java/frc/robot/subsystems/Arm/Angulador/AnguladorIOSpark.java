@@ -7,7 +7,7 @@ package frc.robot.subsystems.Arm.Angulador;
 import static frc.robot.util.SparkUtil.ifOk;
 import static frc.robot.util.SparkUtil.tryUntilOk;
 
-import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -19,16 +19,17 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import java.util.function.DoubleSupplier;
 
 public class AnguladorIOSpark implements AnguladorIO {
   /** Creates a new AnguladorIOSpark. */
   private final SparkMax leftMotor =
-      new SparkMax(ArmConstants.Angulador.leftMotorId, MotorType.kBrushless);
+      new SparkMax(Constants.Angulador.leftMotorId, MotorType.kBrushless);
 
   private final SparkMax rightMotor =
-      new SparkMax(ArmConstants.Angulador.rightMotorId, MotorType.kBrushless);
-  private final AbsoluteEncoder ArmEncoder = leftMotor.getAbsoluteEncoder();
+      new SparkMax(Constants.Angulador.rightMotorId, MotorType.kBrushless);
+  private final RelativeEncoder ArmEncoder = leftMotor.getEncoder();
   private final SparkClosedLoopController leftController = leftMotor.getClosedLoopController();
   private final SparkClosedLoopController rightController = rightMotor.getClosedLoopController();
 
@@ -36,24 +37,24 @@ public class AnguladorIOSpark implements AnguladorIO {
     var config = new SparkMaxConfig();
     config
         .idleMode(SparkMaxConfig.IdleMode.kBrake)
-        .smartCurrentLimit(ArmConstants.Angulador.currentLimit)
+        .smartCurrentLimit(Constants.Angulador.currentLimit)
         .voltageCompensation(12.0);
-    config.closedLoop.pid(ArmConstants.Angulador.realKp, 0.0, ArmConstants.Angulador.realKd);
+    config.closedLoop.pid(Constants.Angulador.realKp, 0.0, Constants.Angulador.realKd);
     config
         .encoder
-        .velocityConversionFactor(2 * Math.PI / 60.0 / ArmConstants.Angulador.motorReduction)
-        .positionConversionFactor(2 * Math.PI / ArmConstants.Angulador.motorReduction)
+        .velocityConversionFactor(2 * Math.PI / 60.0 / Constants.Angulador.motorReduction)
+        .positionConversionFactor(2 * Math.PI / Constants.Angulador.motorReduction)
         .uvwMeasurementPeriod(10)
         .uvwAverageDepth(2);
     // Apply config to motors
-    config.inverted(ArmConstants.Angulador.leftInverted);
+    config.inverted(Constants.Angulador.leftInverted);
     tryUntilOk(
         leftMotor,
         5,
         () ->
             leftMotor.configure(
                 config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters));
-    config.inverted(ArmConstants.Angulador.rightInverted);
+    config.inverted(Constants.Angulador.rightInverted);
     tryUntilOk(
         rightMotor,
         5,
@@ -82,6 +83,11 @@ public class AnguladorIOSpark implements AnguladorIO {
     ifOk(leftMotor, ArmEncoder::getVelocity, (value) -> inputs.velocityRadPerSec = value);
     // get the angle of the encoder
     ifOk(leftMotor, ArmEncoder::getPosition, (value) -> inputs.positionRad = value);
+    // get the angle of the encoder
+    ifOk(
+        leftMotor,
+        ArmEncoder::getPosition,
+        (value) -> inputs.positionDeg = Units.radiansToDegrees(value));
     // get the applied voltage and amps of the motors
     ifOk(
         leftMotor,

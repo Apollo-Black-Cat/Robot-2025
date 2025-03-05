@@ -4,12 +4,12 @@
 
 package frc.robot.subsystems.Arm.Elevador;
 
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.isInverted;
-import static frc.robot.subsystems.drive.DriveConstants.motorReduction;
+import static frc.robot.Constants.Drive.motorReduction;
+import static frc.robot.Constants.Elevador.isInverted;
 import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;
-import com.ctre.phoenix6.Orchestra;
+//import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -21,12 +21,13 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
+import frc.robot.Constants;
 
 public class ElevadorIOTalonFX implements ElevadorIO {
   /** Creates a new ElevatorIOTalonFX. */
-  private final TalonFX elevatorMotor = new TalonFX(ElevatorConstants.elevatorMotorId);
+  private final TalonFX elevatorMotor = new TalonFX(Constants.Elevador.elevatorMotorId);
 
-  private Orchestra mOrchestra = new Orchestra();
+  //private Orchestra mOrchestra = new Orchestra();
 
   private final StatusSignal<Angle> elevetorMotorPosition = elevatorMotor.getPosition();
   private final StatusSignal<AngularVelocity> elevatorMotorVelocity = elevatorMotor.getVelocity();
@@ -36,7 +37,7 @@ public class ElevadorIOTalonFX implements ElevadorIO {
   private final TrapezoidProfile m_Profile =
       new TrapezoidProfile(
           new TrapezoidProfile.Constraints(
-              metersToRotation(ElevatorConstants.elevatorMotorMaxSpeed), metersToRotation(3.0)));
+              metersToRotation(Constants.Elevador.elevatorMotorMaxSpeed), metersToRotation(3.0)));
   TrapezoidProfile.State m_goal = new TrapezoidProfile.State(0, 0);
   TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
 
@@ -50,13 +51,13 @@ public class ElevadorIOTalonFX implements ElevadorIO {
   public ElevadorIOTalonFX() {
 
     var config = new TalonFXConfiguration();
-    config.CurrentLimits.SupplyCurrentLimit = ElevatorConstants.currentLimit;
+    config.CurrentLimits.SupplyCurrentLimit = Constants.Elevador.currentLimit;
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    config.Slot0.kP = ElevatorConstants.realKp;
-    config.Slot0.kD = ElevatorConstants.realKd;
-    config.Slot0.kS = ElevatorConstants.realKs;
-    config.Slot0.kG = ElevatorConstants.realKg;
+    config.Slot0.kP = Constants.Elevador.realKp;
+    config.Slot0.kD = Constants.Elevador.realKd;
+    config.Slot0.kS = Constants.Elevador.realKs;
+    config.Slot0.kG = Constants.Elevador.realKg;
 
     config.MotorOutput.Inverted =
         isInverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
@@ -109,10 +110,10 @@ public class ElevadorIOTalonFX implements ElevadorIO {
   public void periodic() {}
 
   public double metersToRotation(double meters) {
-    return (meters / (2 * Math.PI * ElevatorConstants.drumRadius)) * motorReduction;
+    return (meters / (2 * Math.PI * Constants.Elevador.drumRadius)) * motorReduction;
   }
 
   public double rotationToMeters(double rotations) {
-    return (rotations * (2 * Math.PI * ElevatorConstants.drumRadius)) / motorReduction;
+    return (rotations * (2 * Math.PI * Constants.Elevador.drumRadius)) / motorReduction;
   }
 }

@@ -4,18 +4,18 @@
 
 package frc.robot.subsystems.Arm.Elevador;
 
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.carriageMass;
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.distancePerPulse;
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.drumRadius;
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.maxHeight;
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.minHeight;
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.motorReduction;
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.simKa;
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.simKd;
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.simKg;
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.simKp;
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.simKs;
-import static frc.robot.subsystems.Arm.Elevador.ElevatorConstants.simKv;
+import static frc.robot.Constants.Elevador.carriageMass;
+import static frc.robot.Constants.Elevador.distancePerPulse;
+import static frc.robot.Constants.Elevador.drumRadius;
+import static frc.robot.Constants.Elevador.maxHeight;
+import static frc.robot.Constants.Elevador.minHeight;
+import static frc.robot.Constants.Elevador.motorReduction;
+import static frc.robot.Constants.Elevador.simKa;
+import static frc.robot.Constants.Elevador.simKd;
+import static frc.robot.Constants.Elevador.simKg;
+import static frc.robot.Constants.Elevador.simKp;
+import static frc.robot.Constants.Elevador.simKs;
+import static frc.robot.Constants.Elevador.simKv;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
@@ -37,7 +38,7 @@ public class ElevadorIOSim implements ElevadorIO {
 
   private boolean closedLoop = false;
   private final DCMotor elevatorGearbox = DCMotor.getKrakenX60(1);
-  private final TalonFX m_motor = new TalonFX(ElevatorConstants.elevatorMotorId);
+  private final TalonFX m_motor = new TalonFX(Constants.Elevador.elevatorMotorId);
   // Standart classes for control the elevator
   private final ProfiledPIDController m_conController =
       new ProfiledPIDController(simKp, 0, simKd, new TrapezoidProfile.Constraints(1.5, 1.0));

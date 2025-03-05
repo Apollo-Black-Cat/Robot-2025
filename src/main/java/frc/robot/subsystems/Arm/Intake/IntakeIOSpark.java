@@ -14,27 +14,29 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import frc.robot.Constants;
 import java.util.function.DoubleSupplier;
 
 /** Add your docs here. */
 public class IntakeIOSpark implements IntakeIO {
-  private final SparkMax roller = new SparkMax(IntakeConstants.IntakeMotorId, MotorType.kBrushless);
+  private final SparkMax roller =
+      new SparkMax(Constants.Intake.IntakeMotorId, MotorType.kBrushless);
   private final RelativeEncoder encoder = roller.getEncoder();
 
   public IntakeIOSpark() {
     var config = new SparkMaxConfig();
     config
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(IntakeConstants.CurrentLimit)
+        .smartCurrentLimit(Constants.Intake.CurrentLimit)
         .voltageCompensation(12.0);
     config
         .encoder
         .positionConversionFactor(
-            2.0 * Math.PI / IntakeConstants.IntakeGearing) // Rotor Rotations -> Roller Radians
+            2.0 * Math.PI / Constants.Intake.IntakeGearing) // Rotor Rotations -> Roller Radians
         .velocityConversionFactor(
             (2.0 * Math.PI)
                 / 60.0
-                / IntakeConstants.IntakeGearing) // Rotor RPM -> Roller Radians/Sec
+                / Constants.Intake.IntakeGearing) // Rotor RPM -> Roller Radians/Sec
         .uvwMeasurementPeriod(10)
         .uvwAverageDepth(2);
 

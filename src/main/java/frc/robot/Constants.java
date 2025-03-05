@@ -13,7 +13,12 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.RobotConfig;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 
 /**
  * This class defines the runtime mode used by AdvantageKit. The mode is always "real" when running
@@ -33,5 +38,167 @@ public final class Constants {
 
     /** Replaying from a log file. */
     REPLAY
+  }
+
+  public static class Drive {
+    public static final double maxSpeedMetersPerSec = 1.5;
+    public static final double trackWidth = 0.62;
+
+    // Device CAN IDs
+    public static final int pigeonCanId = 9;
+    public static final int leftLeaderCanId = 2;
+    public static final int leftFollowerCanId = 3;
+    public static final int rightLeaderCanId = 5;
+    public static final int rightFollowerCanId = 4;
+
+    // Motor configuration
+    public static final int currentLimit = 172;
+    public static final double wheelRadiusMeters = Units.inchesToMeters(3);
+    public static final double motorReduction = 5.95;
+    public static final boolean leftInverted = false;
+    public static final boolean rightInverted = true;
+    public static final DCMotor gearbox = DCMotor.getNEO(2);
+
+    // Velocity PID configuration
+    public static final double realKp = 0.0;
+    public static final double realKd = 0.0;
+    public static final double realKs = 0.0;
+    public static final double realKv = 0.1;
+
+    public static final double simKp = 0.07;
+    public static final double simKd = 0.0;
+    public static final double simKs = 0.0;
+    public static final double simKv = 0.227;
+
+    // PathPlanner configuration
+    public static final double robotMassKg = 35.088;
+    public static final double robotMOI = 13.480;
+    public static final double wheelCOF = 1.2;
+    public static final RobotConfig ppConfig =
+        new RobotConfig(
+            robotMassKg,
+            robotMOI,
+            new ModuleConfig(
+                wheelRadiusMeters,
+                maxSpeedMetersPerSec,
+                wheelCOF,
+                gearbox.withReduction(motorReduction),
+                currentLimit,
+                2),
+            trackWidth);
+  }
+
+  public static class Angulador {
+    // Motors ID
+    public static final int leftMotorId = 1;
+    public static final int rightMotorId = 6;
+
+    public static final boolean leftInverted = true;
+    public static final boolean rightInverted = false;
+
+    // Motor reductions
+    public static final double motorReduction = 150.0;
+
+    public static final double InitialAngle = 0.0;
+
+    public static final int currentLimit = 60;
+
+    public static final double maxVoltage = 10.0;
+
+    // Velocity PID configuration
+    public static final double realKp = 0.0;
+    public static final double realKd = 0.0;
+    public static final double realKs = 0.0;
+    public static final double realKv = 0.1;
+
+    public static final double simKp = 1.5;
+    public static final double simKd = 0.1;
+    public static final double simKs = 0.0;
+    public static final double simKv = 0.227;
+
+    // Arm configuration
+    public static final double armLength = 0.5;
+    public static final double armMass = 2.0;
+    public static final double armMaxAngle = 180.0;
+    public static final double armMinAngle = 0.0;
+    public static final double armInitialAngle = 0.0;
+    public static final double MOI = SingleJointedArmSim.estimateMOI(armLength, armMass);
+    public static final double armEncoderDistancePerPulse = 2 * Math.PI / 4096.0;
+    public static final double gearRadius = Units.inchesToMeters(0.6);
+  }
+
+  public static class Elevador {
+    public static final int elevatorMotorId = 7;
+
+    public static final double elevatorMotorMaxSpeed = 1.0;
+
+    public static final int currentLimit = 60;
+
+    public static final boolean isInverted = false;
+
+    public static final double motorReduction = 21.0;
+    public static final double carriageMass = 0.3;
+    public static final double drumRadius = Units.inchesToMeters(0.944);
+    public static final double minHeight = 0.75;
+    public static final double maxHeight = 1.10;
+    public static final double starningHeight = 0.75;
+    public static final double distancePerPulse = 2 * Math.PI / 4096.0;
+
+    public static final double realKp = 0.0;
+    public static final double realKd = 0.0;
+    public static final double realKs = 0.01;
+    public static final double realKv = 0.1;
+    public static final double realKa = 0.0;
+    public static final double realKg = 0.0;
+
+    public static final double simKp = 0.10;
+    public static final double simKd = 0.0;
+    public static final double simKs = 0.01;
+    public static final double simKv = 0.227;
+    public static final double simKa = 0.0;
+    public static final double simKg = 0.0;
+  }
+
+  public static class Intake {
+    public static final int IntakeMotorId = 9;
+    public static final int CurrentLimit = 40;
+    public static final double IntakeGearing = 1.0 / 60.0;
+  }
+
+  public static class Wrist {
+    // Motors ID
+    public static final int wristMotorId = 9;
+
+    public static final boolean wristInverted = false;
+
+    // Motor reductions
+    public static final double motorReduction = 60.0;
+
+    public static final double InitialAngle = 0.0;
+
+    public static final int currentLimit = 30;
+
+    public static final double maxVoltage = 10.0;
+
+    // Velocity PID configuration
+    public static final double realKp = 0.0;
+    public static final double realKd = 0.0;
+    public static final double realKs = 0.0;
+    public static final double realKv = 0.1;
+
+    public static final double simKp = 1.5;
+    public static final double simKd = 0.1;
+    public static final double simKs = 0.0;
+    public static final double simKv = 0.227;
+
+    // Arm configuration
+    public static final double intakeLength = 0.5;
+    public static final double intakeMass = 2.0;
+    public static final double intakeMaxAngle = 180.0;
+    public static final double intakeMinAngle = 0.0;
+    public static final double intakeInitialAngle = 0.0;
+    public static final double MOI = SingleJointedArmSim.estimateMOI(intakeLength, intakeMass);
+    public static final double armEncoderDistancePerPulse = 2 * Math.PI / 4096.0;
+    public static final double gearRadius = Units.inchesToMeters(0.6);
   }
 }

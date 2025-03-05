@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import frc.robot.Constants;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
@@ -27,32 +28,32 @@ public class AnguladorIOSim implements AnguladorIO {
   private double rightAppliedVolts = 0.0;
   private boolean closedLoop = false;
   private final PIDController armPID =
-      new PIDController(ArmConstants.Angulador.simKp, 0.0, ArmConstants.Angulador.simKd);
+      new PIDController(Constants.Angulador.simKp, 0.0, Constants.Angulador.simKd);
   private final Encoder encoder = new Encoder(0, 1);
   private final SparkMax leftMotor =
-      new SparkMax(ArmConstants.Angulador.leftMotorId, SparkMax.MotorType.kBrushless);
+      new SparkMax(Constants.Angulador.leftMotorId, SparkMax.MotorType.kBrushless);
   private final SparkMax rightMotor =
-      new SparkMax(ArmConstants.Angulador.rightMotorId, SparkMax.MotorType.kBrushless);
+      new SparkMax(Constants.Angulador.rightMotorId, SparkMax.MotorType.kBrushless);
 
   private final SingleJointedArmSim sim =
       new SingleJointedArmSim(
           motor,
-          ArmConstants.Angulador.motorReduction,
-          ArmConstants.Angulador.MOI,
-          ArmConstants.Angulador.armLength,
-          ArmConstants.Angulador.armMinAngle,
-          ArmConstants.Angulador.armMaxAngle,
+          Constants.Angulador.motorReduction,
+          Constants.Angulador.MOI,
+          Constants.Angulador.armLength,
+          Constants.Angulador.armMinAngle,
+          Constants.Angulador.armMaxAngle,
           true,
           0,
-          ArmConstants.Angulador.armEncoderDistancePerPulse,
+          Constants.Angulador.armEncoderDistancePerPulse,
           0.0);
   private final EncoderSim encoderSim = new EncoderSim(encoder);
 
   // create a mecanism2d to simulate the arm
   private final LoggedMechanism2d mechanism = new LoggedMechanism2d(1, 0.4);
   private final LoggedMechanismRoot2d m_armPivot = mechanism.getRoot("ArmPivot", .30, .30);
-  private final LoggedMechanismLigament2d m_armTower =
-      m_armPivot.append(new LoggedMechanismLigament2d("ArmTower", 0.3412, -90));
+  /* private final LoggedMechanismLigament2d m_armTower =
+      m_armPivot.append(new LoggedMechanismLigament2d("ArmTower", 0.3412, -90)); */
   private final LoggedMechanismLigament2d m_arm =
       m_armPivot.append(
           new LoggedMechanismLigament2d(
@@ -63,7 +64,7 @@ public class AnguladorIOSim implements AnguladorIO {
               new Color8Bit(Color.kYellow)));
 
   public AnguladorIOSim() {
-    encoder.setDistancePerPulse(ArmConstants.Angulador.armEncoderDistancePerPulse);
+    encoder.setDistancePerPulse(Constants.Angulador.armEncoderDistancePerPulse);
   }
 
   @Override

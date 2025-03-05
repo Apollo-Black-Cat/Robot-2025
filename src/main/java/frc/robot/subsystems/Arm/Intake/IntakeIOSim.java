@@ -8,13 +8,14 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import frc.robot.Constants;
 
 /** Add your docs here. */
 public class IntakeIOSim implements IntakeIO {
   private DCMotorSim sim =
       new DCMotorSim(
           LinearSystemId.createDCMotorSystem(
-              DCMotor.getNeo550(1), 0.004, IntakeConstants.IntakeGearing),
+              DCMotor.getNeo550(1), 0.004, Constants.Intake.IntakeGearing),
           DCMotor.getNeo550(1));
   private double appliedVolts = 0.0;
 

@@ -13,11 +13,6 @@
 
 package frc.robot;
 
-import static frc.robot.subsystems.vision.VisionConstants.camera0Name;
-import static frc.robot.subsystems.vision.VisionConstants.camera1Name;
-import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
-import static frc.robot.subsystems.vision.VisionConstants.robotToCamera1;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -38,20 +33,12 @@ import frc.robot.subsystems.Arm.Elevador.Elevador;
 import frc.robot.subsystems.Arm.Elevador.ElevadorIO;
 import frc.robot.subsystems.Arm.Elevador.ElevadorIOSim;
 import frc.robot.subsystems.Arm.Elevador.ElevadorIOTalonFX;
-import frc.robot.subsystems.Arm.Intake.Intake;
-import frc.robot.subsystems.Arm.Intake.IntakeIO;
-import frc.robot.subsystems.Arm.Intake.IntakeIOSim;
-import frc.robot.subsystems.Arm.Intake.IntakeIOSpark;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.DriveIO;
 import frc.robot.subsystems.drive.DriveIOSim;
 import frc.robot.subsystems.drive.DriveIOSpark;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONavX;
-import frc.robot.subsystems.vision.Vision;
-import frc.robot.subsystems.vision.VisionIO;
-import frc.robot.subsystems.vision.VisionIOLimelight;
-import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import java.io.IOException;
 import org.json.simple.parser.ParseException;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -67,8 +54,9 @@ public class RobotContainer {
   private final Drive drive;
   private final Angulador angulador;
   private final Elevador elevador;
-  private final Vision vision;
-  private final Intake intake;
+  // private final Wrist wrist;
+  // private final Vision vision;
+  // private final Intake intake;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -88,12 +76,13 @@ public class RobotContainer {
         drive = new Drive(new DriveIOSpark(), new GyroIONavX());
         angulador = new Angulador(new AnguladorIOSpark());
         elevador = new Elevador(new ElevadorIOTalonFX());
-        vision =
-            new Vision(
-                drive::addVisionMeasurement,
-                new VisionIOLimelight(camera0Name, drive::getRotation),
-                new VisionIOLimelight(camera1Name, drive::getRotation));
-        intake = new Intake(new IntakeIOSpark());
+        // wrist = new Wrist(new WristIOSpark());
+        /*vision =
+        new Vision(
+            drive::addVisionMeasurement,
+            new VisionIOLimelight(camera0Name, drive::getRotation),
+            new VisionIOLimelight(camera1Name, drive::getRotation));*/
+        // intake = new Intake(new IntakeIOSpark());
         break;
 
       case SIM:
@@ -101,12 +90,13 @@ public class RobotContainer {
         drive = new Drive(new DriveIOSim(), new GyroIO() {});
         angulador = new Angulador(new AnguladorIOSim());
         elevador = new Elevador(new ElevadorIOSim());
-        vision =
-            new Vision(
-                drive::addVisionMeasurement,
-                new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose),
-                new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose));
-        intake = new Intake(new IntakeIOSim());
+        // wrist = new Wrist(new WristIOSim());
+        /*vision =
+        new Vision(
+            drive::addVisionMeasurement,
+            new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose),
+            new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose)); */
+        // intake = new Intake(new IntakeIOSim());
         break;
 
       default:
@@ -114,8 +104,9 @@ public class RobotContainer {
         drive = new Drive(new DriveIO() {}, new GyroIO() {});
         angulador = new Angulador(new AnguladorIO() {});
         elevador = new Elevador(new ElevadorIO() {});
-        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
-        intake = new Intake(new IntakeIO() {});
+        // wrist = new Wrist(new WristIO() {});
+        // vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        // intake = new Intake(new IntakeIO() {});
         break;
     }
 
@@ -165,17 +156,28 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.arcadeDrive(
             drive, () -> -controller.getLeftY(), () -> -controller.getRightX()));
+
     angulador.setDefaultCommand(ArmCommands.controlArm(angulador, () -> controller.getRightY()));
+
     elevador.setDefaultCommand(
         ElevatorCommands.controlElevator(
-            elevador, () -> controller.getRightTriggerAxis() - controller.getLeftTriggerAxis()));
-    // Configure button A to run intake
-    controller.a().onTrue(ArmCommands.setAngle(angulador, 0));
+            elevador, () -> (controller.getRightTriggerAxis() - controller.getLeftTriggerAxis())));
 
-    // Configure button B to run intake in reverse
-    controller.b().onTrue(ArmCommands.setAngle(angulador, 90));
+    /*wrist.setDefaultCommand(
+    WristCommands.controlWrist(
+        wrist,
+        () -> (controller.getLeftTriggerAxis() - controller.getRightTriggerAxis()) * .25)); */
 
-    // Configure button X to run the pathfinding command
+    // controller.y().onTrue(WristCommands.setAngle(wrist, 0));
+    // controller.x().onTrue(WristCommands.setAngle(wrist, 90));
+
+    // Configure button to run intake
+    controller.leftBumper().onTrue(ArmCommands.setAngle(angulador, 0));
+
+    // Configure button to run intake in reverse
+    controller.rightBumper().onTrue(ArmCommands.setAngle(angulador, 90));
+
+    // Configure button to run the pathfinding command
     controller.x().onTrue(command);
   }
 

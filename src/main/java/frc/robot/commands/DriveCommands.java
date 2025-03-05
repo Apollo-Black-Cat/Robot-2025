@@ -13,7 +13,7 @@
 
 package frc.robot.commands;
 
-import static frc.robot.subsystems.drive.DriveConstants.maxSpeedMetersPerSec;
+import static frc.robot.Constants.Drive.maxSpeedMetersPerSec;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
