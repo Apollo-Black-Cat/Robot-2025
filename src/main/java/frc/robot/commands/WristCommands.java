@@ -17,8 +17,21 @@ import java.util.function.DoubleSupplier;
 public class WristCommands {
   private static double DEADBAND = 0.1;
   // private static final double FF_RAMP_RATE = 0.1;
+  private static boolean toggleAngle = false;
+  private static double angle = 0.0;
 
   public WristCommands() {}
+
+  public static Command setToggleAngle(Wrist wrist) {
+    return new RunCommand(
+            () -> {
+              double angle = toggleAngle ? 0 : 90;
+              wrist.runCloseLoop(angle);
+              toggleAngle = !toggleAngle;
+            },
+            wrist)
+        .until(() -> Math.abs(wrist.getAngle() - angle) > 0.1);
+  }
 
   public static Command setAngle(Wrist wrist, double angle) {
     return new RunCommand(
@@ -26,7 +39,7 @@ public class WristCommands {
               wrist.runCloseLoop(angle);
             },
             wrist)
-        .onlyWhile(() -> Math.abs(wrist.getAngle() - angle) > 0.1);
+        .onlyWhile(() -> Math.abs(wrist.getAngle() - angle) >= 0.5);
   }
 
   public static Command controlWrist(Wrist wrist, DoubleSupplier supplier) {

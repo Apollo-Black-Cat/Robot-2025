@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.Arm.Wrist;
 
+import static frc.robot.Constants.Wrist.positionFactor;
 import static frc.robot.util.SparkUtil.ifOk;
 import static frc.robot.util.SparkUtil.tryUntilOk;
 
@@ -15,6 +16,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
@@ -35,14 +37,18 @@ public class WristIOSpark implements WristIO {
     config
         .idleMode(SparkMaxConfig.IdleMode.kBrake)
         .smartCurrentLimit(frc.robot.Constants.Wrist.currentLimit)
-        .voltageCompensation(12.0);
-    config.closedLoop.pid(Constants.Wrist.realKp, 0.0, Constants.Wrist.realKd);
+        .voltageCompensation(12.0)
+        .absoluteEncoder
+        .positionConversionFactor(Constants.Wrist.positionFactor)
+        .velocityConversionFactor(Constants.Wrist.positionFactor / 60);
     config
-        .encoder
-        .velocityConversionFactor(2 * Math.PI / 60.0 / Constants.Wrist.motorReduction)
-        .positionConversionFactor(2 * Math.PI / Constants.Wrist.motorReduction)
-        .uvwMeasurementPeriod(10)
-        .uvwAverageDepth(2);
+        .closedLoop
+        .pid(Constants.Wrist.realKp, 0.0, Constants.Wrist.realKd)
+        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+        .outputRange(-1, 1)
+        .positionWrappingEnabled(true)
+        .positionWrappingInputRange(0, positionFactor);
+    config.encoder.uvwMeasurementPeriod(10).uvwAverageDepth(2);
     // Apply config to motors
     config.inverted(Constants.Wrist.wristInverted);
     tryUntilOk(
@@ -71,7 +77,10 @@ public class WristIOSpark implements WristIO {
     // get the angle of the encoder
     ifOk(wristMotor, WristEncoder::getPosition, (value) -> inputs.positionRad = value);
     // get the angle of the encoder
-    ifOk(wristMotor, WristEncoder::getPosition, (value) -> inputs.positionRad = Units.radiansToDegrees(value));
+    ifOk(
+        wristMotor,
+        WristEncoder::getPosition,
+        (value) -> inputs.positionDeg = Units.radiansToDegrees(inputs.positionRad));
     // get the applied voltage and amps of the motors
     ifOk(
         wristMotor,

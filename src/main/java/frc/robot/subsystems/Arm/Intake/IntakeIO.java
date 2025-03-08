@@ -12,10 +12,20 @@ public interface IntakeIO {
     public double velocityRadPerSec = 0.0;
     public double appliedVolts = 0.0;
     public double currentAmps = 0.0;
+
+    public double leftAppliedVolts = 0.0;
+    public double[] leftCurrentAmps = new double[] {};
+
+    public double rightAppliedVolts = 0.0;
+    public double[] rightCurrentAmps = new double[] {};
   }
 
   /*update inputs */
   public default void updateInputs(IntakeIOInputs inputs) {}
 
-  public default void setVoltage(double volts) {}
+  public default void runCoralIntake(boolean isOn) {}
+
+  public default void runAlgaeIntake(boolean isOn) {}
+
+  public default void stopMotors() {}
 }

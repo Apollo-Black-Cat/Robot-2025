@@ -6,10 +6,10 @@ package frc.robot.subsystems.Arm.Angulador;
 
 import static edu.wpi.first.units.Units.Volts;
 import static frc.robot.Constants.Angulador.gearRadius;
-//import static frc.robot.Constants.Angulador.realKs;
-//import static frc.robot.Constants.Angulador.realKv;
-//import static frc.robot.Constants.Angulador.simKs;
-//import static frc.robot.Constants.Angulador.simKv;
+// import static frc.robot.Constants.Angulador.realKs;
+// import static frc.robot.Constants.Angulador.realKv;
+// import static frc.robot.Constants.Angulador.simKs;
+// import static frc.robot.Constants.Angulador.simKv;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -17,8 +17,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-//import frc.robot.Constants;
-//import frc.robot.Constants.Mode;
+// import frc.robot.Constants;
+// import frc.robot.Constants.Mode;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -27,8 +27,8 @@ public class Angulador extends SubsystemBase {
   AnguladorIO anguladorIO;
 
   AnguladorIOInputsAutoLogged inputs = new AnguladorIOInputsAutoLogged();
-  //private final double kS = Constants.currentMode == Mode.SIM ? simKs : realKs;
-  //private final double kV = Constants.currentMode == Mode.SIM ? simKv : realKv;
+  // private final double kS = Constants.currentMode == Mode.SIM ? simKs : realKs;
+  // private final double kV = Constants.currentMode == Mode.SIM ? simKv : realKv;
   private final SysIdRoutine sysId;
 
   public Angulador(AnguladorIO anguladorIO) {

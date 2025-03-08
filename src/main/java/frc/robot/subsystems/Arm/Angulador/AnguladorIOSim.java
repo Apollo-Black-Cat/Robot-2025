@@ -53,7 +53,7 @@ public class AnguladorIOSim implements AnguladorIO {
   private final LoggedMechanism2d mechanism = new LoggedMechanism2d(1, 0.4);
   private final LoggedMechanismRoot2d m_armPivot = mechanism.getRoot("ArmPivot", .30, .30);
   /* private final LoggedMechanismLigament2d m_armTower =
-      m_armPivot.append(new LoggedMechanismLigament2d("ArmTower", 0.3412, -90)); */
+  m_armPivot.append(new LoggedMechanismLigament2d("ArmTower", 0.3412, -90)); */
   private final LoggedMechanismLigament2d m_arm =
       m_armPivot.append(
           new LoggedMechanismLigament2d(

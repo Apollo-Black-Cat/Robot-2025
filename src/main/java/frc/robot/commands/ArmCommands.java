@@ -23,34 +23,42 @@ import java.util.function.DoubleSupplier;
 public class ArmCommands {
   private static double DEADBAND = 0.1;
   private static final double FF_RAMP_RATE = 0.1;
+  private static double targetPose = 0.0;
 
   private ArmCommands() {}
 
   /** put an angle in the arm * */
-  public static Command setAngle(Angulador angulador, double angle) {
+  public static Command setAngle(Angulador angulador) {
     return new RunCommand(
             () -> {
-              angulador.runCloseLoop(angle);
+              angulador.runCloseLoop(targetPose);
             },
             angulador)
-        .onlyWhile(() -> Math.abs(angulador.getAngle() - angle) > 0.1);
+        .until(() -> Math.abs(angulador.getAngle() - targetPose) <= 1);
   }
-
   /** Control the arm by voltage by the control* */
   public static Command controlArm(Angulador angulador, DoubleSupplier supplier) {
     return Commands.run(
         () -> {
           double voltage = MathUtil.applyDeadband(supplier.getAsDouble(), DEADBAND);
           double angle = angulador.getAngle();
-          if (angle >= 200 && voltage > 0) {
+          if (angle <= 0 && voltage < 0) {
             voltage = 0;
-          } else if (angle <= -400 && voltage < 0) {
+          } else if (angle >= 155 && voltage > 0) {
             voltage = 0;
           }
           angulador.runOpenLoop(voltage * maxVoltage);
           SmartDashboard.putNumber("voltajeManita", voltage * maxVoltage);
         },
         angulador);
+  }
+
+  public static Command setTargetPose(double poseDesired) {
+    return Commands.runOnce(
+        () -> {
+          targetPose = poseDesired;
+          SmartDashboard.putNumber("targetPose", targetPose);
+        });
   }
 
   /** Measures the velocity feedforward constants for the drive. */

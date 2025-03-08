@@ -4,33 +4,30 @@
 
 package frc.robot.subsystems.Arm.Intake;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import java.util.function.DoubleSupplier;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-  private final IntakeIO io;
+  private final IntakeIO intakeIO;
 
   // private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
 
-  public Intake(IntakeIO io) {
-    this.io = io;
+  public Intake(IntakeIO intakeIO) {
+    this.intakeIO = intakeIO;
   }
 
   @Override
-  public void periodic() {
-    // io.updateInputs(inputs);
-    // Logger.processInputs("Intake", inputs);
+  public void periodic() {}
+
+  public void runCoralIntake(boolean isOn) {
+    intakeIO.runCoralIntake(isOn);
   }
 
-  public Command runPercent(double percent) {
-    return runEnd(() -> io.setVoltage(percent * 12.0), () -> io.setVoltage(0.0));
+  public void runAlgaeIntake(boolean isOn) {
+    intakeIO.runAlgaeIntake(isOn);
   }
 
-  public Command runTeleop(DoubleSupplier forward, DoubleSupplier reverse) {
-    return runEnd(
-        () -> io.setVoltage((forward.getAsDouble() - reverse.getAsDouble()) * 12.0),
-        () -> io.setVoltage(0.0));
+  public void stopMotors() {
+    intakeIO.stopMotors();
   }
 }

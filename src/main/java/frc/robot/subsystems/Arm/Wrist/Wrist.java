@@ -42,6 +42,7 @@ public class Wrist extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     wristIO.updateInputs(inputs);
+    Logger.processInputs("Wrist", inputs);
   }
 
   public void runOpenLoop(double voltage) {
@@ -66,7 +67,7 @@ public class Wrist extends SubsystemBase {
 
   @AutoLogOutput
   public double getAngle() {
-    return Units.radiansToDegrees(inputs.positionDeg);
+    return Units.radiansToDegrees(inputs.positionRad);
   }
 
   @AutoLogOutput

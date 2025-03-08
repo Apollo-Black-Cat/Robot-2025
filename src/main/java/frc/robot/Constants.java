@@ -41,7 +41,7 @@ public final class Constants {
   }
 
   public static class Drive {
-    public static final double maxSpeedMetersPerSec = 1.5;
+    public static final double maxSpeedMetersPerSec = 2.5;
     public static final double trackWidth = 0.62;
 
     // Device CAN IDs
@@ -93,11 +93,11 @@ public final class Constants {
     public static final int leftMotorId = 1;
     public static final int rightMotorId = 6;
 
-    public static final boolean leftInverted = true;
-    public static final boolean rightInverted = false;
+    public static final boolean leftInverted = false;
+    public static final boolean rightInverted = true;
 
     // Motor reductions
-    public static final double motorReduction = 150.0;
+    public static final double motorReduction = 500.0;
 
     public static final double InitialAngle = 0.0;
 
@@ -106,12 +106,12 @@ public final class Constants {
     public static final double maxVoltage = 10.0;
 
     // Velocity PID configuration
-    public static final double realKp = 0.0;
+    public static final double realKp = 1.0;
     public static final double realKd = 0.0;
     public static final double realKs = 0.0;
     public static final double realKv = 0.1;
 
-    public static final double simKp = 1.5;
+    public static final double simKp = 15;
     public static final double simKd = 0.1;
     public static final double simKs = 0.0;
     public static final double simKv = 0.227;
@@ -144,7 +144,7 @@ public final class Constants {
     public static final double starningHeight = 0.75;
     public static final double distancePerPulse = 2 * Math.PI / 4096.0;
 
-    public static final double realKp = 0.0;
+    public static final double realKp = 0.1;
     public static final double realKd = 0.0;
     public static final double realKs = 0.01;
     public static final double realKv = 0.1;
@@ -160,28 +160,38 @@ public final class Constants {
   }
 
   public static class Intake {
-    public static final int IntakeMotorId = 9;
-    public static final int CurrentLimit = 40;
-    public static final double IntakeGearing = 1.0 / 60.0;
+    public static final int smallRollerId = 9;
+    public static final int algaeRollersId = 10;
+
+    public static final boolean smallRollerInverted = true;
+    public static final boolean bigRollerInverted = false;
+    public static final boolean algaeRollerInverted = false;
+
+    public static final double speed = 1.0;
+    public static final double maxVoltage = 10;
+    public static final int CurrentLimit = 30;
+    public static final double IntakeGearing = 60.0;
   }
 
   public static class Wrist {
     // Motors ID
-    public static final int wristMotorId = 9;
+    public static final int wristMotorId = 8;
 
     public static final boolean wristInverted = false;
 
     // Motor reductions
-    public static final double motorReduction = 60.0;
+    public static final double motorReduction = 1.0;
 
     public static final double InitialAngle = 0.0;
 
-    public static final int currentLimit = 30;
+    public static final int currentLimit = 60;
 
     public static final double maxVoltage = 10.0;
 
+    public static final double positionFactor = 2 * Math.PI;
+
     // Velocity PID configuration
-    public static final double realKp = 0.0;
+    public static final double realKp = 0.3;
     public static final double realKd = 0.0;
     public static final double realKs = 0.0;
     public static final double realKv = 0.1;
@@ -200,5 +210,10 @@ public final class Constants {
     public static final double MOI = SingleJointedArmSim.estimateMOI(intakeLength, intakeMass);
     public static final double armEncoderDistancePerPulse = 2 * Math.PI / 4096.0;
     public static final double gearRadius = Units.inchesToMeters(0.6);
+  }
+
+  public static class Leds {
+    public static final int pwmPort = 0;
+    public static final int ledBuffer = 36;
   }
 }
