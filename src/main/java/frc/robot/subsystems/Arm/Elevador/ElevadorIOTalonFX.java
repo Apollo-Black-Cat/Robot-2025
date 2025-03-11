@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems.Arm.Elevador;
 
-import static frc.robot.Constants.Drive.motorReduction;
 import static frc.robot.Constants.Elevador.isInverted;
+import static frc.robot.Constants.Elevador.motorReduction;
 import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;

@@ -21,7 +21,7 @@ import java.util.function.DoubleSupplier;
 
 /** Add your docs here. */
 public class ArmCommands {
-  private static double DEADBAND = 0.1;
+  private static double DEADBAND = 0.2;
   private static final double FF_RAMP_RATE = 0.1;
   private static double targetPose = 0.0;
 

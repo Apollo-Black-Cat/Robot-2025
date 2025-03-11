@@ -38,8 +38,8 @@ public class DriveIOSpark implements DriveIO {
   private final SparkMax rightLeader = new SparkMax(rightLeaderCanId, MotorType.kBrushless);
   private final SparkMax leftFollower = new SparkMax(leftFollowerCanId, MotorType.kBrushless);
   private final SparkMax rightFollower = new SparkMax(rightFollowerCanId, MotorType.kBrushless);
-  private final RelativeEncoder leftEncoder = leftLeader.getEncoder();
-  private final RelativeEncoder rightEncoder = rightLeader.getEncoder();
+  private final RelativeEncoder leftEncoder = leftLeader.getAlternateEncoder();
+  private final RelativeEncoder rightEncoder = rightLeader.getAlternateEncoder();
   private final SparkClosedLoopController leftController = leftLeader.getClosedLoopController();
   private final SparkClosedLoopController rightController = rightLeader.getClosedLoopController();
 
@@ -55,9 +55,16 @@ public class DriveIOSpark implements DriveIO {
             (2 * Math.PI) / 60.0 / motorReduction) // Rotor RPM -> Wheel Rad/Sec
         .uvwMeasurementPeriod(10)
         .uvwAverageDepth(2);
+    config
+        .alternateEncoder
+        .positionConversionFactor(2 * Math.PI)
+        .velocityConversionFactor(2 * Math.PI / 60)
+        .countsPerRevolution(8192)
+        .averageDepth(2);
 
     // Apply config to leaders
     config.inverted(leftInverted);
+    config.alternateEncoder.inverted(leftInverted);
     tryUntilOk(
         leftLeader,
         5,
@@ -65,6 +72,7 @@ public class DriveIOSpark implements DriveIO {
             leftLeader.configure(
                 config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters));
     config.inverted(rightInverted);
+    config.alternateEncoder.inverted(rightInverted);
     tryUntilOk(
         rightLeader,
         5,

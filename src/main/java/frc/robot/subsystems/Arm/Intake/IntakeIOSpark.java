@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.Arm.Intake;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -18,6 +19,7 @@ public class IntakeIOSpark implements IntakeIO {
 
   public IntakeIOSpark() {
     algaeRollersMotor.setInverted(Constants.Intake.algaeRollerInverted);
+    algaeRollersMotor.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
