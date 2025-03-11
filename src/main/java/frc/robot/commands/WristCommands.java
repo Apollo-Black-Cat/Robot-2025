@@ -19,6 +19,7 @@ public class WristCommands {
   // private static final double FF_RAMP_RATE = 0.1;
   private static boolean toggleAngle = false;
   private static double angle = 0.0;
+  private static double targetPose = 0.0;
 
   public WristCommands() {}
 
@@ -40,6 +41,22 @@ public class WristCommands {
             },
             wrist)
         .onlyWhile(() -> Math.abs(wrist.getAngle() - angle) >= 0.5);
+  }
+
+  public static Command setAngle(Wrist wrist) {
+    return new RunCommand(
+            () -> {
+              wrist.runCloseLoop(targetPose);
+            },
+            wrist)
+        .onlyWhile(() -> Math.abs(wrist.getAngle() - targetPose) >= 0.5);
+  }
+
+  public static Command setTargetPose(double poseDesired) {
+    return Commands.runOnce(
+        () -> {
+          targetPose = poseDesired;
+        });
   }
 
   public static Command controlWrist(Wrist wrist, DoubleSupplier supplier) {

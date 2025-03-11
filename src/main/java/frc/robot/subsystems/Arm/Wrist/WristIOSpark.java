@@ -40,7 +40,8 @@ public class WristIOSpark implements WristIO {
         .voltageCompensation(12.0)
         .absoluteEncoder
         .positionConversionFactor(Constants.Wrist.positionFactor)
-        .velocityConversionFactor(Constants.Wrist.positionFactor / 60);
+        .velocityConversionFactor(Constants.Wrist.positionFactor / 60)
+        .inverted(Constants.Wrist.encoderInverted);
     config
         .closedLoop
         .pid(Constants.Wrist.realKp, 0.0, Constants.Wrist.realKd)
@@ -85,11 +86,11 @@ public class WristIOSpark implements WristIO {
     ifOk(
         wristMotor,
         new DoubleSupplier[] {wristMotor::getAppliedOutput, wristMotor::getBusVoltage},
-        (value) -> inputs.leftAppliedVolts = value[0] * value[1]);
+        (value) -> inputs.appliedVolts = value[0] * value[1]);
     ifOk(
         wristMotor,
         new DoubleSupplier[] {wristMotor::getOutputCurrent, wristMotor::getOutputCurrent},
-        (value) -> inputs.leftCurrentAmps = value);
+        (value) -> inputs.currentAmps = value);
   }
 
   public void periodic() {

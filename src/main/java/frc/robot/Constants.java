@@ -52,7 +52,7 @@ public final class Constants {
     public static final int rightFollowerCanId = 4;
 
     // Motor configuration
-    public static final int currentLimit = 172;
+    public static final int currentLimit = 80;
     public static final double wheelRadiusMeters = Units.inchesToMeters(3);
     public static final double motorReduction = 5.95;
     public static final boolean leftInverted = false;
@@ -164,7 +164,6 @@ public final class Constants {
     public static final int algaeRollersId = 10;
 
     public static final boolean smallRollerInverted = true;
-    public static final boolean bigRollerInverted = false;
     public static final boolean algaeRollerInverted = false;
 
     public static final double speed = 1.0;
@@ -177,12 +176,12 @@ public final class Constants {
     // Motors ID
     public static final int wristMotorId = 8;
 
-    public static final boolean wristInverted = false;
+    public static final boolean wristInverted = true;
+
+    public static final boolean encoderInverted = true;
 
     // Motor reductions
     public static final double motorReduction = 1.0;
-
-    public static final double InitialAngle = 0.0;
 
     public static final int currentLimit = 60;
 
@@ -191,7 +190,7 @@ public final class Constants {
     public static final double positionFactor = 2 * Math.PI;
 
     // Velocity PID configuration
-    public static final double realKp = 0.3;
+    public static final double realKp = 0.7;
     public static final double realKd = 0.0;
     public static final double realKs = 0.0;
     public static final double realKv = 0.1;

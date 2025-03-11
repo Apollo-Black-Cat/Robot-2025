@@ -20,6 +20,7 @@ import com.pathplanner.lib.util.FileVersionException;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.ArmCommands;
@@ -46,11 +47,6 @@ import frc.robot.subsystems.drive.DriveIOSim;
 import frc.robot.subsystems.drive.DriveIOSpark;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONavX;
-import frc.robot.subsystems.vision.Vision;
-import frc.robot.subsystems.vision.VisionConstants;
-import frc.robot.subsystems.vision.VisionIO;
-import frc.robot.subsystems.vision.VisionIOLimelight;
-import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import java.io.IOException;
 import org.json.simple.parser.ParseException;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -67,7 +63,7 @@ public class RobotContainer {
   private final Angulador angulador;
   private final Elevador elevador;
   private final Wrist wrist;
-  private final Vision vision;
+  // private final Vision vision;
   private final Intake intake;
   // private final Leds leds;
 
@@ -91,11 +87,11 @@ public class RobotContainer {
         angulador = new Angulador(new AnguladorIOSpark());
         elevador = new Elevador(new ElevadorIOTalonFX());
         wrist = new Wrist(new WristIOSpark());
-        vision =
-            new Vision(
-                drive::addVisionMeasurement,
-                new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation),
-                new VisionIOLimelight(VisionConstants.camera1Name, drive::getRotation));
+        /*vision =
+        new Vision(
+            drive::addVisionMeasurement,
+            new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation),
+            new VisionIOLimelight(VisionConstants.camera1Name, drive::getRotation)); */
         intake = new Intake(new IntakeIOSpark());
         // leds = new Leds(new LedsIOBuffer());
         break;
@@ -106,13 +102,13 @@ public class RobotContainer {
         angulador = new Angulador(new AnguladorIOSim());
         elevador = new Elevador(new ElevadorIOSim());
         wrist = new Wrist(new WristIOSim());
-        vision =
-            new Vision(
-                drive::addVisionMeasurement,
-                new VisionIOPhotonVisionSim(
-                    VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose),
-                new VisionIOPhotonVisionSim(
-                    VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose));
+        /*vision =
+        new Vision(
+            drive::addVisionMeasurement,
+            new VisionIOPhotonVisionSim(
+                VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose),
+            new VisionIOPhotonVisionSim(
+                VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose)); */
         intake = new Intake(new IntakeIOSim());
         // leds = new Leds(null);
         break;
@@ -123,7 +119,7 @@ public class RobotContainer {
         angulador = new Angulador(new AnguladorIO() {});
         elevador = new Elevador(new ElevadorIO() {});
         wrist = new Wrist(new WristIO() {});
-        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        // vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
         intake = new Intake(new IntakeIO() {});
         // leds = new Leds(null);
         break;
@@ -182,8 +178,10 @@ public class RobotContainer {
     elevador.setDefaultCommand(
         ElevatorCommands.controlElevator(
             elevador, () -> (controller.getRightTriggerAxis() - controller.getLeftTriggerAxis())));
-    wrist.setDefaultCommand(WristCommands.controlWrist(wrist, () -> -controller.getLeftX() * .20));
+    // wrist.setDefaultCommand(WristCommands.controlWrist(wrist, () -> -controller.getLeftX() *
+    // .20));
     // Botón para mover la muñeca alternando entre 90 y 0 grados.
+    controller.rightStick().onTrue(WristCommands.setAngle(wrist, 180));
     controller.a().onTrue(WristCommands.setAngle(wrist, 90));
     controller.b().onTrue(WristCommands.setAngle(wrist, 0));
     // Boton para activar coral intake
@@ -193,21 +191,49 @@ public class RobotContainer {
     controller.povUp().whileTrue(IntakeCommands.runAlgaeIntake(intake, true));
     controller.povLeft().whileTrue(IntakeCommands.runAlgaeIntake(intake, false));
     // Botón para mover el angulador con el valor del segundo driver.
-    controller.leftBumper().onTrue(ArmCommands.setAngle(angulador));
+    controller
+        .leftBumper()
+        .onTrue(
+            new ParallelCommandGroup(
+                ArmCommands.setAngle(angulador), WristCommands.setAngle(wrist)));
 
     // Second driver buttons
     // Processor
-    controller2.a().onTrue(ArmCommands.setTargetPose(0));
+    controller2
+        .a()
+        .onTrue(
+            new ParallelCommandGroup(
+                ArmCommands.setTargetPose(-46), WristCommands.setTargetPose(0)));
     // L1
-    controller2.b().onTrue(ArmCommands.setTargetPose(20));
+    controller2
+        .b()
+        .onTrue(
+            new ParallelCommandGroup(
+                ArmCommands.setTargetPose(-25), WristCommands.setTargetPose(0)));
     // L2
-    controller2.x().onTrue(ArmCommands.setTargetPose(45));
-    //  Coral Station
-    controller2.y().onTrue(ArmCommands.setTargetPose(60));
+    controller2
+        .x()
+        .onTrue(
+            new ParallelCommandGroup(
+                ArmCommands.setTargetPose(1), WristCommands.setTargetPose(90)));
+    // L3
+    controller2
+        .y()
+        .onTrue(
+            new ParallelCommandGroup(
+                ArmCommands.setTargetPose(10), WristCommands.setTargetPose(90)));
     // Coral Station
-    controller2.leftBumper().onTrue(ArmCommands.setTargetPose(140));
+    controller2
+        .leftBumper()
+        .onTrue(
+            new ParallelCommandGroup(
+                ArmCommands.setTargetPose(80), WristCommands.setTargetPose(180)));
     // Climb
-    controller2.rightBumper().onTrue(ArmCommands.setTargetPose(90));
+    controller2
+        .rightBumper()
+        .onTrue(
+            new ParallelCommandGroup(
+                ArmCommands.setTargetPose(30), WristCommands.setTargetPose(180)));
 
     /* // Only first driver buttons
     // Processor

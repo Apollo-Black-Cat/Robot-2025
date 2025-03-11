@@ -16,11 +16,8 @@ public interface WristIO {
     public double positionRad = 0.0;
     public double positionDeg = 0.0;
 
-    public double leftAppliedVolts = 0.0;
-    public double[] leftCurrentAmps = new double[] {};
-
-    public double rightAppliedVolts = 0.0;
-    public double[] rightCurrentAmps = new double[] {};
+    public double appliedVolts = 0.0;
+    public double[] currentAmps = new double[] {};
   }
   /** Updates the inputs* */
   public default void updateInputs(WristIOInputs inputs) {}

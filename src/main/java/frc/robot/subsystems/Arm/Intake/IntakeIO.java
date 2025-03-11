@@ -8,16 +8,9 @@ package frc.robot.subsystems.Arm.Intake;
 public interface IntakeIO {
 
   public static class IntakeIOInputs {
-    public double positionRad = 0.0;
     public double velocityRadPerSec = 0.0;
     public double appliedVolts = 0.0;
     public double currentAmps = 0.0;
-
-    public double leftAppliedVolts = 0.0;
-    public double[] leftCurrentAmps = new double[] {};
-
-    public double rightAppliedVolts = 0.0;
-    public double[] rightCurrentAmps = new double[] {};
   }
 
   /*update inputs */

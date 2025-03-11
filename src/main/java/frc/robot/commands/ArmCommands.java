@@ -42,7 +42,7 @@ public class ArmCommands {
         () -> {
           double voltage = MathUtil.applyDeadband(supplier.getAsDouble(), DEADBAND);
           double angle = angulador.getAngle();
-          if (angle <= 0 && voltage < 0) {
+          if (angle <= -60 && voltage < 0) {
             voltage = 0;
           } else if (angle >= 155 && voltage > 0) {
             voltage = 0;
