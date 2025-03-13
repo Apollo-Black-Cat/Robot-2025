@@ -36,6 +36,15 @@ public class ArmCommands {
             angulador)
         .until(() -> Math.abs(angulador.getAngle() - targetPose) <= 1);
   }
+
+  public static Command setAngle(Angulador angulador, double angle) {
+    return new RunCommand(
+            () -> {
+              angulador.runCloseLoop(angle);
+            },
+            angulador)
+        .until(() -> Math.abs(angulador.getAngle() - angle) <= 1);
+  }
   /** Control the arm by voltage by the control* */
   public static Command controlArm(Angulador angulador, DoubleSupplier supplier) {
     return Commands.run(

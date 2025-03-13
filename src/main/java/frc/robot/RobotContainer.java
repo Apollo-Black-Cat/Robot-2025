@@ -14,6 +14,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FileVersionException;
@@ -124,6 +125,7 @@ public class RobotContainer {
         // leds = new Leds(null);
         break;
     }
+    NamedCommands.registerCommand("SetAngleToLevel1", ArmCommands.setAngle(angulador, 30));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -156,6 +158,7 @@ public class RobotContainer {
     }
     constraints = new PathConstraints(2.5, 3.0, 300, 651);
     command = AutoBuilder.pathfindThenFollowPath(path, constraints);
+
     // Configure the button bindings
     configureButtonBindings();
   }
