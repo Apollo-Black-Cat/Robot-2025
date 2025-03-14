@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.Arm.Angulador.Angulador;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -51,9 +52,9 @@ public class ArmCommands {
         () -> {
           double voltage = MathUtil.applyDeadband(supplier.getAsDouble(), DEADBAND);
           double angle = angulador.getAngle();
-          if (angle <= -60 && voltage < 0) {
+          if (angle <= Constants.Angulador.minPosition && voltage < 0) {
             voltage = 0;
-          } else if (angle >= 155 && voltage > 0) {
+          } else if (angle >= Constants.Angulador.maxPosition && voltage > 0) {
             voltage = 0;
           }
           angulador.runOpenLoop(voltage * maxVoltage);

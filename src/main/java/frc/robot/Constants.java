@@ -41,7 +41,7 @@ public final class Constants {
   }
 
   public static class Drive {
-    public static final double maxSpeedMetersPerSec = 2.5;
+    public static final double maxSpeedMetersPerSec = 3.5;
     public static final double trackWidth = 0.62;
 
     // Device CAN IDs
@@ -125,6 +125,17 @@ public final class Constants {
     public static final double MOI = SingleJointedArmSim.estimateMOI(armLength, armMass);
     public static final double armEncoderDistancePerPulse = 2 * Math.PI / 4096.0;
     public static final double gearRadius = Units.inchesToMeters(0.6);
+
+    // Robot positions
+    public static final double proccessorPosition = -45;
+    public static final double level1Position = -20;
+    public static final double level2Position = -15;
+    public static final double level3Position = 10;
+    public static final double coralStationPosition = 75;
+    public static final double climbPosition = 30;
+
+    public static final double minPosition = -70;
+    public static final double maxPosition = 80;
   }
 
   public static class Elevador {
@@ -167,7 +178,7 @@ public final class Constants {
     public static final boolean algaeRollerInverted = false;
 
     public static final double speed = 1.0;
-    public static final double maxVoltage = 10;
+    public static final double maxVoltage = 12;
     public static final int CurrentLimit = 30;
     public static final double IntakeGearing = 60.0;
   }
@@ -190,7 +201,7 @@ public final class Constants {
     public static final double positionFactor = 2 * Math.PI;
 
     // Velocity PID configuration
-    public static final double realKp = 0.7;
+    public static final double realKp = 0.5;
     public static final double realKd = 0.0;
     public static final double realKs = 0.0;
     public static final double realKv = 0.1;

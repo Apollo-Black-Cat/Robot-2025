@@ -3,11 +3,9 @@
   "robotLength": 0.743,
   "holonomicMode": false,
   "pathFolders": [
+    "Colocar coral derecha",
     "Colocar coral izquierda",
-    "Colocar coral simple",
-    "Derecha",
-    "Izquierda",
-    "Colocar coral derecha"
+    "Colocar coral simple"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,

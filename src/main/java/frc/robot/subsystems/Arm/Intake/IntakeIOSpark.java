@@ -13,32 +13,23 @@ import frc.robot.Constants;
 
 /** Add your docs here. */
 public class IntakeIOSpark implements IntakeIO {
-  private final SparkMax smallRoller =
+  private final SparkMax ScThRollers =
       new SparkMax(Constants.Intake.smallRollerId, MotorType.kBrushed);
-  private WPI_VictorSPX algaeRollersMotor = new WPI_VictorSPX(Constants.Intake.algaeRollersId);
+  private WPI_VictorSPX FrRoller = new WPI_VictorSPX(Constants.Intake.algaeRollersId);
 
   public IntakeIOSpark() {
-    algaeRollersMotor.setInverted(Constants.Intake.algaeRollerInverted);
-    algaeRollersMotor.setNeutralMode(NeutralMode.Brake);
+    FrRoller.setInverted(Constants.Intake.algaeRollerInverted);
+    FrRoller.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
-  public void runCoralIntake(boolean isOn) {
+  public void runIntake(boolean isOn) {
     if (isOn) {
-      algaeRollersMotor.setVoltage(Constants.Intake.speed * Constants.Intake.maxVoltage);
-      smallRoller.setVoltage(Constants.Intake.speed * Constants.Intake.maxVoltage);
+      FrRoller.setVoltage(Constants.Intake.speed * Constants.Intake.maxVoltage);
+      ScThRollers.setVoltage(Constants.Intake.speed * Constants.Intake.maxVoltage);
     } else {
-      algaeRollersMotor.setVoltage(-Constants.Intake.speed * Constants.Intake.maxVoltage);
-      smallRoller.setVoltage(-Constants.Intake.speed * Constants.Intake.maxVoltage);
-    }
-  }
-
-  @Override
-  public void runAlgaeIntake(boolean isOn) {
-    if (isOn) {
-      algaeRollersMotor.setVoltage(Constants.Intake.speed * Constants.Intake.maxVoltage);
-    } else {
-      algaeRollersMotor.setVoltage(-Constants.Intake.speed * Constants.Intake.maxVoltage);
+      FrRoller.setVoltage(-Constants.Intake.speed * Constants.Intake.maxVoltage);
+      ScThRollers.setVoltage(-Constants.Intake.speed * Constants.Intake.maxVoltage);
     }
   }
 
@@ -47,7 +38,7 @@ public class IntakeIOSpark implements IntakeIO {
 
   @Override
   public void stopMotors() {
-    smallRoller.stopMotor();
-    algaeRollersMotor.stopMotor();
+    ScThRollers.stopMotor();
+    FrRoller.stopMotor();
   }
 }

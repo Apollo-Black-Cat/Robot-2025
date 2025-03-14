@@ -11,23 +11,24 @@ import frc.robot.subsystems.Arm.Intake.Intake;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeCommands {
   /** Creates a new IntakeCommands. */
-  public static Command runCoralIntake(Intake intake, boolean isOn) {
+  public static Command runIntake(Intake intake, boolean isOn) {
     return Commands.runEnd(
         () -> {
-          intake.runCoralIntake(isOn);
+          intake.runIntake(isOn);
         },
         () -> {
           intake.stopMotors();
         });
   }
 
-  public static Command runAlgaeIntake(Intake intake, boolean isOn) {
+  public static Command runIntake(Intake intake, boolean isOn, double seconds) {
     return Commands.runEnd(
-        () -> {
-          intake.runAlgaeIntake(isOn);
-        },
-        () -> {
-          intake.stopMotors();
-        });
+            () -> {
+              intake.runIntake(isOn);
+            },
+            () -> {
+              intake.stopMotors();
+            })
+        .withTimeout(seconds);
   }
 }

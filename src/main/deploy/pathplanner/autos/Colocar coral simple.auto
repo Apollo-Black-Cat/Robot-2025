@@ -5,9 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Ir a centro"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Ir a centro"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetAngleToLevel1"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ActivateIntake"
           }
         }
       ]

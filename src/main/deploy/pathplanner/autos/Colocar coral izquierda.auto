@@ -5,15 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Ir a reef izq"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Ir a reef izq"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetAngleToLevel1"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "SetAngleToLevel1"
+            "name": "ActivateIntake"
           }
         }
       ]

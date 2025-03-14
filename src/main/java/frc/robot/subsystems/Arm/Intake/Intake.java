@@ -19,12 +19,8 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {}
 
-  public void runCoralIntake(boolean isOn) {
-    intakeIO.runCoralIntake(isOn);
-  }
-
-  public void runAlgaeIntake(boolean isOn) {
-    intakeIO.runAlgaeIntake(isOn);
+  public void runIntake(boolean isOn) {
+    intakeIO.runIntake(isOn);
   }
 
   public void stopMotors() {

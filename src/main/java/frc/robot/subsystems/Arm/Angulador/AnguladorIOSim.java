@@ -44,7 +44,7 @@ public class AnguladorIOSim implements AnguladorIO {
           Constants.Angulador.armMinAngle,
           Constants.Angulador.armMaxAngle,
           true,
-          0,
+          0.698,
           Constants.Angulador.armEncoderDistancePerPulse,
           0.0);
   private final EncoderSim encoderSim = new EncoderSim(encoder);

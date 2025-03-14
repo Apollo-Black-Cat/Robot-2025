@@ -125,8 +125,20 @@ public class RobotContainer {
         // leds = new Leds(null);
         break;
     }
-    NamedCommands.registerCommand("SetAngleToLevel1", ArmCommands.setAngle(angulador, 30));
-
+    NamedCommands.registerCommand(
+        "SetAngleToLevel1", ArmCommands.setAngle(angulador, Constants.Angulador.level1Position));
+    NamedCommands.registerCommand(
+        "SetAngleToLevel2", ArmCommands.setAngle(angulador, Constants.Angulador.level2Position));
+    NamedCommands.registerCommand(
+        "SetAngleToLevel3", ArmCommands.setAngle(angulador, Constants.Angulador.level3Position));
+    NamedCommands.registerCommand(
+        "SetAngleToCoralStation",
+        ArmCommands.setAngle(angulador, Constants.Angulador.coralStationPosition));
+    NamedCommands.registerCommand("SetWristTo0Degrees", WristCommands.setAngle(wrist, 0));
+    NamedCommands.registerCommand("SetWristTo90Degrees", WristCommands.setAngle(wrist, 90));
+    NamedCommands.registerCommand("SetWristTo180Degrees", WristCommands.setAngle(wrist, 180));
+    NamedCommands.registerCommand("ActivateIntake", IntakeCommands.runIntake(intake, true, 1));
+    NamedCommands.registerCommand("Take", IntakeCommands.runIntake(intake, false, 2));
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -184,15 +196,14 @@ public class RobotContainer {
     // wrist.setDefaultCommand(WristCommands.controlWrist(wrist, () -> -controller.getLeftX() *
     // .20));
     // Botón para mover la muñeca alternando entre 90 y 0 grados.
-    controller.rightStick().onTrue(WristCommands.setAngle(wrist, 180));
     controller.a().onTrue(WristCommands.setAngle(wrist, 90));
     controller.b().onTrue(WristCommands.setAngle(wrist, 0));
     // Boton para activar coral intake
-    controller.y().whileTrue(IntakeCommands.runCoralIntake(intake, true));
-    controller.x().whileTrue(IntakeCommands.runCoralIntake(intake, false));
+    controller.y().whileTrue(IntakeCommands.runIntake(intake, true));
+    controller.x().whileTrue(IntakeCommands.runIntake(intake, false));
     // Boton para activar algae intake
-    controller.povUp().whileTrue(IntakeCommands.runAlgaeIntake(intake, true));
-    controller.povLeft().whileTrue(IntakeCommands.runAlgaeIntake(intake, false));
+    controller.povUp().whileTrue(IntakeCommands.runIntake(intake, true));
+    controller.povLeft().whileTrue(IntakeCommands.runIntake(intake, false));
     // Botón para mover el angulador con el valor del segundo driver.
     controller
         .leftBumper()
@@ -206,37 +217,43 @@ public class RobotContainer {
         .a()
         .onTrue(
             new ParallelCommandGroup(
-                ArmCommands.setTargetPose(-46), WristCommands.setTargetPose(0)));
+                ArmCommands.setTargetPose(Constants.Angulador.proccessorPosition),
+                WristCommands.setTargetPose(0)));
     // L1
     controller2
         .b()
         .onTrue(
             new ParallelCommandGroup(
-                ArmCommands.setTargetPose(-25), WristCommands.setTargetPose(0)));
+                ArmCommands.setTargetPose(Constants.Angulador.level1Position),
+                WristCommands.setTargetPose(0)));
     // L2
     controller2
         .x()
         .onTrue(
             new ParallelCommandGroup(
-                ArmCommands.setTargetPose(1), WristCommands.setTargetPose(90)));
+                ArmCommands.setTargetPose(Constants.Angulador.level2Position),
+                WristCommands.setTargetPose(90)));
     // L3
     controller2
         .y()
         .onTrue(
             new ParallelCommandGroup(
-                ArmCommands.setTargetPose(10), WristCommands.setTargetPose(90)));
+                ArmCommands.setTargetPose(Constants.Angulador.level3Position),
+                WristCommands.setTargetPose(90)));
     // Coral Station
     controller2
         .leftBumper()
         .onTrue(
             new ParallelCommandGroup(
-                ArmCommands.setTargetPose(80), WristCommands.setTargetPose(180)));
+                ArmCommands.setTargetPose(Constants.Angulador.coralStationPosition),
+                WristCommands.setTargetPose(0)));
     // Climb
     controller2
         .rightBumper()
         .onTrue(
             new ParallelCommandGroup(
-                ArmCommands.setTargetPose(30), WristCommands.setTargetPose(180)));
+                ArmCommands.setTargetPose(Constants.Angulador.climbPosition),
+                WristCommands.setTargetPose(0)));
 
     /* // Only first driver buttons
     // Processor

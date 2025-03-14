@@ -16,9 +16,7 @@ public interface IntakeIO {
   /*update inputs */
   public default void updateInputs(IntakeIOInputs inputs) {}
 
-  public default void runCoralIntake(boolean isOn) {}
-
-  public default void runAlgaeIntake(boolean isOn) {}
+  public default void runIntake(boolean isOn) {}
 
   public default void stopMotors() {}
 }
