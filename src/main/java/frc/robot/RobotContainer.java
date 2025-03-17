@@ -136,7 +136,6 @@ public class RobotContainer {
         ArmCommands.setAngle(angulador, Constants.Angulador.coralStationPosition));
     NamedCommands.registerCommand("SetWristTo0Degrees", WristCommands.setAngle(wrist, 0));
     NamedCommands.registerCommand("SetWristTo90Degrees", WristCommands.setAngle(wrist, 90));
-    NamedCommands.registerCommand("SetWristTo180Degrees", WristCommands.setAngle(wrist, 180));
     NamedCommands.registerCommand("ActivateIntake", IntakeCommands.runIntake(intake, true, 1));
     NamedCommands.registerCommand("Take", IntakeCommands.runIntake(intake, false, 2));
     // Set up auto routines

@@ -41,7 +41,7 @@ public final class Constants {
   }
 
   public static class Drive {
-    public static final double maxSpeedMetersPerSec = 3.5;
+    public static final double maxSpeedMetersPerSec = 4;
     public static final double trackWidth = 0.62;
 
     // Device CAN IDs
