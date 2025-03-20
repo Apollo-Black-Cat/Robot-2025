@@ -38,12 +38,6 @@
                 "data": {
                   "pathName": "Ir a coral station izquierda"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetAngleToCoralStation"
-                }
               }
             ]
           }

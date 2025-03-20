@@ -21,10 +21,10 @@ public class ElevatorCommands {
           double voltage = MathUtil.applyDeadband(supplier.getAsDouble(), DEADBAND) * 10;
           double height = elevador.getHeight();
 
-          if (height >= 1.5 && voltage > 0) {
+          if (height >= 0.5 && voltage > 0) {
             // If height is >= 1.5 meters, only allow negative voltage
             voltage = 0;
-          } else if (height <= 0.15 && voltage < 0) {
+          } else if (height <= 0.05 && voltage < 0) {
             // If height is <= 0.15 meters, only allow positive voltage
             voltage = 0;
           }

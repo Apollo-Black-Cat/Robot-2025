@@ -35,7 +35,7 @@ public class ArmCommands {
               angulador.runCloseLoop(targetPose);
             },
             angulador)
-        .until(() -> Math.abs(angulador.getAngle() - targetPose) <= 1);
+        .until(() -> Math.abs(angulador.getAngle() - targetPose) <= 1.2);
   }
 
   public static Command setAngle(Angulador angulador, double angle) {

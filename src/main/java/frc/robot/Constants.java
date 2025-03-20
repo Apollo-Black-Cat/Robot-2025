@@ -111,8 +111,8 @@ public final class Constants {
     public static final double realKs = 0.0;
     public static final double realKv = 0.1;
 
-    public static final double simKp = 15;
-    public static final double simKd = 0.1;
+    public static final double simKp = 30;
+    public static final double simKd = 0.0;
     public static final double simKs = 0.0;
     public static final double simKv = 0.227;
 
@@ -129,8 +129,8 @@ public final class Constants {
     // Robot positions
     public static final double proccessorPosition = -45;
     public static final double level1Position = -20;
-    public static final double level2Position = -15;
-    public static final double level3Position = 10;
+    public static final double level2Position = 0;
+    public static final double level3Position = 17;
     public static final double coralStationPosition = 75;
     public static final double climbPosition = 30;
 
