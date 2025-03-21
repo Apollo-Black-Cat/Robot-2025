@@ -49,7 +49,7 @@ public class DriveCommands {
           var speeds = DifferentialDrive.arcadeDriveIK(x, z, true);
 
           // Apply output
-          drive.runClosedLoop(
+          drive.runOpenLoop(
               speeds.left * maxSpeedMetersPerSec, speeds.right * maxSpeedMetersPerSec);
         },
         drive);

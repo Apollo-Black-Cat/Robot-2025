@@ -41,7 +41,7 @@ public final class Constants {
   }
 
   public static class Drive {
-    public static final double maxSpeedMetersPerSec = 4;
+    public static final double maxSpeedMetersPerSec = 4.25;
     public static final double trackWidth = 0.62;
 
     // Device CAN IDs
@@ -60,10 +60,10 @@ public final class Constants {
     public static final DCMotor gearbox = DCMotor.getNEO(2);
 
     // Velocity PID configuration
-    public static final double realKp = 0.0;
+    public static final double realKp = 0.0; // 0.050655
     public static final double realKd = 0.0;
-    public static final double realKs = 0.0;
-    public static final double realKv = 0.1;
+    public static final double realKs = 0.0; // 0.377329
+    public static final double realKv = 0.0; // 0.11862
 
     public static final double simKp = 0.07;
     public static final double simKd = 0.0;
@@ -130,7 +130,7 @@ public final class Constants {
     public static final double proccessorPosition = -45;
     public static final double level1Position = -20;
     public static final double level2Position = 0;
-    public static final double level3Position = 17;
+    public static final double level3Position = 10;
     public static final double coralStationPosition = 75;
     public static final double climbPosition = 30;
 
